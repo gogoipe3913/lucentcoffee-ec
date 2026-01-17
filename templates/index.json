@@ -15,52 +15,64 @@
         "item_1": {
           "type": "item",
           "settings": {
+            "image": "shopify://shop_images/20190801-40.jpg",
             "label": "All items",
             "link": "/collections/all",
-            "size": "large",
-            "image": "shopify://shop_images/20190801-40.jpg"
+            "size": "large"
           }
         },
         "item_2": {
           "type": "item",
+          "name": "New arrivals",
           "settings": {
+            "image": "shopify://shop_images/new-arrivals.png",
             "label": "New arrivals",
             "link": "/collections/new-arrivals",
-            "size": "small",
-            "image": "shopify://shop_images/20190801-40.jpg"
+            "size": "small"
           }
         },
         "item_3": {
           "type": "item",
+          "name": "Special coffee",
           "settings": {
-            "label": "Special Coffee",
+            "image": "shopify://shop_images/special-coffee.png",
+            "label": "Special coffee",
             "link": "/collections/special-coffee",
-            "size": "small",
-            "image": "shopify://shop_images/20190801-40.jpg"
+            "size": "small"
           }
         },
         "item_4": {
           "type": "item",
+          "name": "Daily coffee",
           "settings": {
-            "label": "Daily Coffee",
+            "image": "shopify://shop_images/daily-coffee.png",
+            "label": "Daily coffee",
             "link": "/collections/daily-coffee",
-            "size": "small",
-            "image": "shopify://shop_images/20190801-40.jpg"
+            "size": "small"
           }
         },
         "item_5": {
           "type": "item",
+          "name": "Goods",
           "settings": {
+            "image": "shopify://shop_images/goods.png",
             "label": "Goods",
             "link": "/collections/goods",
-            "size": "small",
-            "image": "shopify://shop_images/20190801-40.jpg"
+            "size": "small"
           }
         }
       },
-      "block_order": ["item_1", "item_2", "item_3", "item_4", "item_5"],
+      "block_order": [
+        "item_1",
+        "item_2",
+        "item_3",
+        "item_4",
+        "item_5"
+      ],
       "settings": {}
     }
   },
-  "order": ["lucent_hero_grid"]
+  "order": [
+    "lucent_hero_grid"
+  ]
 }
