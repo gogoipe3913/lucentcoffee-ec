@@ -1,0 +1,75 @@
+<section class="lucent-hero page-width">
+  <div class="lucent-hero__grid">
+    {% for block in section.blocks %}
+      <a
+        href="{{ block.settings.link }}"
+        class="lucent-hero__item lucent-hero__item--{{ block.settings.size }}"
+        {{ block.shopify_attributes }}
+      >
+        {% if block.settings.image != blank %}
+          {{ block.settings.image | image_url: width: 2000 | image_tag:
+            loading: 'lazy',
+            class: 'lucent-hero__image'
+          }}
+        {% endif %}
+
+        <span class="lucent-hero__label">
+          {{ block.settings.label }}
+        </span>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Lucent Hero Grid",
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Hero item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "All items"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "size",
+          "label": "Size",
+          "options": [
+            { "value": "large", "label": "Large" },
+            { "value": "small", "label": "Small" }
+          ],
+          "default": "small"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "Lucent Hero Grid",
+      "blocks": [
+        { "type": "item", "settings": { "label": "All items", "size": "large" } },
+        { "type": "item", "settings": { "label": "New arrivals" } },
+        { "type": "item", "settings": { "label": "Special Coffee" } },
+        { "type": "item", "settings": { "label": "Daily Coffee" } },
+        { "type": "item", "settings": { "label": "Goods" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

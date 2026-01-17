@@ -1,0 +1,66 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "lucent_hero_grid": {
+      "type": "lucent-hero-grid",
+      "blocks": {
+        "item_1": {
+          "type": "item",
+          "settings": {
+            "label": "All items",
+            "link": "/collections/all",
+            "size": "large",
+            "image": "shopify://shop_images/20190801-40.jpg"
+          }
+        },
+        "item_2": {
+          "type": "item",
+          "settings": {
+            "label": "New arrivals",
+            "link": "/collections/new-arrivals",
+            "size": "small",
+            "image": "shopify://shop_images/20190801-40.jpg"
+          }
+        },
+        "item_3": {
+          "type": "item",
+          "settings": {
+            "label": "Special Coffee",
+            "link": "/collections/special-coffee",
+            "size": "small",
+            "image": "shopify://shop_images/20190801-40.jpg"
+          }
+        },
+        "item_4": {
+          "type": "item",
+          "settings": {
+            "label": "Daily Coffee",
+            "link": "/collections/daily-coffee",
+            "size": "small",
+            "image": "shopify://shop_images/20190801-40.jpg"
+          }
+        },
+        "item_5": {
+          "type": "item",
+          "settings": {
+            "label": "Goods",
+            "link": "/collections/goods",
+            "size": "small",
+            "image": "shopify://shop_images/20190801-40.jpg"
+          }
+        }
+      },
+      "block_order": ["item_1", "item_2", "item_3", "item_4", "item_5"],
+      "settings": {}
+    }
+  },
+  "order": ["lucent_hero_grid"]
+}
