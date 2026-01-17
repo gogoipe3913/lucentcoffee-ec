@@ -3684,16 +3684,58 @@ details-disclosure > details {
   }
 }
 
-/* ---------- Lucent 用に追加 ---------- */
+/* ======================================
+   Lucent Global Page Padding Override
+   ====================================== */
+
+/* Desktop */
+@media screen and (min-width: 750px) {
+  .page-width {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+
+  /* header / utility-bar も揃える */
+  .header.page-width,
+  .utility-bar__grid.page-width {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+}
+
+/* Tablet */
+@media screen and (max-width: 749px) {
+  .page-width {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+/* ======================================
+   Lucent Header Padding Override
+   ====================================== */
+
+@media screen and (min-width: 990px) {
+  .header.page-width,
+  .utility-bar__grid.page-width {
+    padding-left: 60px !important;
+    padding-right: 60px !important;
+  }
+}
+
+/* ---------- hero ---------- */
+
 .lucent-hero {
-  margin-top: 4rem;
+  height: calc(100vh - var(--header-height) - 60px);
+  margin-bottom: 60px;
 }
 
 .lucent-hero__grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  grid-auto-rows: 240px;
+  grid-template-columns: 54fr 23fr 23fr;
+  grid-auto-rows: 1fr;
   gap: 8px;
+  height: 100%;
 }
 
 .lucent-hero__item {
