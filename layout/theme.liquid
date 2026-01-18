@@ -309,6 +309,7 @@
         document.documentElement.classList.add('shopify-design-mode');
       }
     </script>
+    {{ 'mouse-stalker.css' | asset_url | stylesheet_tag }}
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
@@ -388,5 +389,9 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+
+    {% comment %} マウスストーカー {% endcomment %}
+    <div class="mouse-stalker" data-mouse-stalker><span class="visually-hidden">.</span></div>
+    <script src="{{ 'mouse-stalker.js' | asset_url }}" defer></script>
   </body>
 </html>

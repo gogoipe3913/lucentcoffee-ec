@@ -3692,15 +3692,17 @@ details-disclosure > details {
 @media screen and (min-width: 750px) {
   .page-width {
     margin: 0 auto;
-    padding-left: 60px;
-    padding-right: 60px;
+    padding-left: 40px;
+    padding-right: 40px;
   }
 
   /* header / utility-bar も揃える */
   .header.page-width,
   .utility-bar__grid.page-width {
-    padding-left: 60px;
-    padding-right: 60px;
+    padding-top: 28px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 24px;
   }
 }
 
@@ -3719,8 +3721,8 @@ details-disclosure > details {
 @media screen and (min-width: 990px) {
   .header.page-width,
   .utility-bar__grid.page-width {
-    padding-left: 60px !important;
-    padding-right: 60px !important;
+    padding-left: 40px !important;
+    padding-right: 40px !important;
   }
 }
 
@@ -3797,7 +3799,7 @@ details-disclosure > details {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 /* footer */
@@ -3805,7 +3807,7 @@ details-disclosure > details {
   position: fixed;
   bottom: 8px;
   left: 0;
-  right: 60px;
+  right: 40px;
   display: flex;
   align-items: right;
   justify-content: right;
@@ -3899,4 +3901,34 @@ details-disclosure > details {
 .header__mypage:hover {
   text-decoration: underline;
   text-underline-offset: 0.3rem;
+}
+
+/* ======================================
+   Lucent: Header global nav align right (no overlap)
+   ====================================== */
+@media screen and (min-width: 990px) {
+  /* 3カラムにして中央を“伸びる領域”にする */
+  .section-header .header.header--middle-left {
+    grid-template-columns: auto 1fr auto;
+    column-gap: 2rem; /* 好みで */
+  }
+
+  /* ロゴは左 */
+  .section-header .header.header--middle-left .header__heading,
+  .section-header .header.header--middle-left .header__heading-link {
+    justify-self: start;
+  }
+
+  /* ナビは中央カラムの右端へ */
+  .section-header .header.header--middle-left .header__inline-menu {
+    grid-column: 2;
+    justify-self: end;
+    margin-left: 0;
+  }
+
+  /* icons は右に固定（念のため） */
+  .section-header .header.header--middle-left .header__icons {
+    grid-column: 3;
+    justify-self: end;
+  }
 }

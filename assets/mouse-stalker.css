@@ -1,0 +1,73 @@
+/* --- Mouse Stalker (Shopify Theme Safe) --- */
+
+/* JSが有効で、hoverできる端末だけカーソルを消す（スマホ/タブレット回避） */
+html.has-mouse-stalker {
+  cursor: none;
+}
+html.has-mouse-stalker a,
+html.has-mouse-stalker button,
+html.has-mouse-stalker input,
+html.has-mouse-stalker textarea,
+html.has-mouse-stalker select,
+html.has-mouse-stalker label {
+  cursor: none;
+}
+
+.mouse-stalker {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 999999;
+  opacity: 0;
+  transform: translate3d(-50%, -50%, 0);
+
+  backdrop-filter: blur(2px);
+  background: rgba(212, 202, 187, 0.8);
+  border: 1px solid rgba(212, 202, 187, 0);
+
+  transition: width 300ms ease, height 300ms ease, opacity 300ms ease,
+    background 300ms ease;
+  will-change: transform;
+}
+
+html.has-mouse-stalker .mouse-stalker {
+  opacity: 1;
+}
+
+/* クリック */
+.mouse-stalker.is-down {
+  width: 12px;
+  height: 12px;
+  background: rgba(212, 202, 187, 0.1);
+  border: 1px solid rgba(212, 202, 187, 0.8);
+}
+
+/* hover 可能なものに乗ったとき（任意） */
+.mouse-stalker.is-hover {
+  width: 48px;
+  height: 48px;
+  background: rgba(212, 202, 187, 0.3);
+  border: 1px solid rgba(212, 202, 187, 0.8);
+}
+
+/* 動きを抑えたいユーザーに配慮 */
+@media (prefers-reduced-motion: reduce) {
+  html.has-mouse-stalker {
+    cursor: auto;
+  }
+  html.has-mouse-stalker a,
+  html.has-mouse-stalker button,
+  html.has-mouse-stalker input,
+  html.has-mouse-stalker textarea,
+  html.has-mouse-stalker select,
+  html.has-mouse-stalker label {
+    cursor: auto;
+  }
+  .mouse-stalker {
+    display: none;
+  }
+}
