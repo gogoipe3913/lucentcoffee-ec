@@ -3691,6 +3691,7 @@ details-disclosure > details {
 /* Desktop */
 @media screen and (min-width: 750px) {
   .page-width {
+    margin: 0 auto;
     padding-left: 60px;
     padding-right: 60px;
   }
@@ -3723,38 +3724,68 @@ details-disclosure > details {
   }
 }
 
-/* ---------- hero ---------- */
-
-.lucent-hero {
-  height: calc(100vh - var(--header-height) - 60px);
-  margin-bottom: 60px;
+/* ======================================
+   Lucent: Top-only simple footer
+   ====================================== */
+.template-index .footer {
+  border-top: none !important;
 }
 
+/* ---------- hero (Lucent) ---------- */
+
+.lucent-hero {
+  position: relative;
+
+  /* “高さを感じさせる”ための可変レンジ（好みで調整） */
+  --hero-min: 520px;
+  --hero-max: 820px;
+
+  /* 右側の上下比率（442:270） */
+  --top-ratio: 442;
+  --bottom-ratio: 270;
+
+  /* gap（Figma寄せで固定してOK） */
+  --hero-gap: 4px;
+}
+
+/* ヒーロー全体の高さを viewport に応じて可変に */
 .lucent-hero__grid {
   display: grid;
   grid-template-columns: 54fr 23fr 23fr;
-  grid-auto-rows: 1fr;
-  gap: 8px;
-  height: 100%;
+
+  /* ✅ これなら確実に効く */
+  grid-template-rows: 440fr 272fr;
+
+  gap: var(--hero-gap);
+  height: clamp(
+    var(--hero-min),
+    calc(100vh - var(--header-height) - 60px),
+    var(--hero-max)
+  );
 }
 
+/* 左の大タイル：2行分 */
+.lucent-hero__item--large {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+
+/* tile base */
 .lucent-hero__item {
   position: relative;
   display: block;
   overflow: hidden;
-  border-radius: 4px;
-}
-
-.lucent-hero__item--large {
-  grid-row: span 2;
+  border-radius: 2px;
 }
 
 .lucent-hero__image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
+/* label */
 .lucent-hero__label {
   position: absolute;
   top: 16px;
@@ -3765,11 +3796,58 @@ details-disclosure > details {
   z-index: 2;
 }
 
+/* overlay */
 .lucent-hero__item::after {
   content: "";
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.15);
+}
+
+/* footer */
+.lucent-hero__footer {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+}
+
+/* Mobile */
+@media screen and (max-width: 749px) {
+  .lucent-hero__grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    height: auto;
+  }
+
+  .lucent-hero__item--large {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .lucent-hero__item {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* ======================================
+   Disable Shopify injected cart sync (top only)
+   ====================================== */
+.template-index shop-cart-sync {
+  display: none !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.template-index body > shop-cart-sync {
+  position: absolute !important;
+  inset: 0;
+  pointer-events: none;
 }
 
 /* Mobile */
@@ -3786,4 +3864,43 @@ details-disclosure > details {
   .lucent-hero__item {
     aspect-ratio: 4 / 3;
   }
+}
+
+.header__cart-text {
+  display: inline-flex;
+  align-items: center;
+  height: 44px; /* アイコンと同じ当たり判定 */
+  padding: 0 0.8rem;
+  text-decoration: none;
+  font-size: 1.4rem;
+  letter-spacing: 0.08em;
+  color: rgb(var(--color-foreground));
+}
+
+.header__cart-text:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+}
+
+.header__cart-count {
+  margin-left: 0.1em;
+}
+
+/* ======================================
+   Header mypage text
+   ====================================== */
+.header__mypage {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 0.8rem;
+  font-size: 1.4rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  color: rgb(var(--color-foreground));
+}
+
+.header__mypage:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
 }
