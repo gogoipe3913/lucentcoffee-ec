@@ -2,6 +2,62 @@
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 
+{%- liquid
+  assign all_url = routes.all_products_collection_url
+  assign path = request.path | default: ''
+
+  assign tag_new = 'new'
+  assign tag_special = 'special'
+  assign tag_daily = 'daily'
+  assign tag_milk = 'milk'
+  assign tag_decaf = 'decaf'
+  assign tag_subscription = 'subscription'
+  assign tag_goods = 'goods'
+
+  assign p_new = '/' | append: tag_new
+  assign p_special = '/' | append: tag_special
+  assign p_daily = '/' | append: tag_daily
+  assign p_milk = '/' | append: tag_milk
+  assign p_decaf = '/' | append: tag_decaf
+  assign p_subscription = '/' | append: tag_subscription
+  assign p_goods = '/' | append: tag_goods
+
+  assign is_all = false
+  assign is_new = false
+  assign is_special = false
+  assign is_daily = false
+  assign is_milk = false
+  assign is_decaf = false
+  assign is_subscription = false
+  assign is_goods = false
+
+  if path == '/collections/all'
+    assign is_all = true
+  endif
+
+  if path contains p_new
+    assign is_new = true
+  endif
+  if path contains p_special
+    assign is_special = true
+  endif
+  if path contains p_daily
+    assign is_daily = true
+  endif
+  if path contains p_milk
+    assign is_milk = true
+  endif
+  if path contains p_decaf
+    assign is_decaf = true
+  endif
+  if path contains p_subscription
+    assign is_subscription = true
+  endif
+  if path contains p_goods
+    assign is_goods = true
+  endif
+-%}
+
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
@@ -15,19 +71,11 @@
     }
   }
 
-  /* Lucent collection layout */
   .lucent-collection {
     max-width: {{ settings.page_width }}px;
     margin: 0 auto;
     padding-left: 2.4rem;
     padding-right: 2.4rem;
-  }
-
-  @media screen and (min-width: 990px) {
-    .lucent-collection {
-      padding-left: 4.8rem;
-      padding-right: 4.8rem;
-    }
   }
 
   .lucent-collection__grid {
@@ -36,24 +84,9 @@
     gap: 3.2rem;
   }
 
-  @media screen and (min-width: 990px) {
-    .lucent-collection__grid {
-      grid-template-columns: 220px 1fr;
-      gap: 6.4rem;
-      align-items: start;
-    }
-  }
-
   .lucent-collection__sidebar {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     line-height: 1.6;
-  }
-
-  .lucent-collection__sidebar-title {
-    margin: 0 0 1.2rem;
-    font-weight: 400;
-    font-size: 1.2rem;
-    opacity: 0.9;
   }
 
   .lucent-collection__sidebar-nav {
@@ -81,7 +114,7 @@
   }
 
   .lucent-collection__header {
-    margin: 0 0 2.4rem;
+    margin: 0 0 4.8rem;
   }
 
   .lucent-collection__title {
@@ -91,22 +124,95 @@
     letter-spacing: 0.01em;
   }
 
-  /* Product grid spacing tuning */
   .lucent-collection #product-grid.product-grid {
     column-gap: 4.0rem;
     row-gap: 5.2rem;
   }
 
+  .lucent-collection .pagination-wrapper {
+    margin-top: 4.8rem;
+  }
+
   @media screen and (min-width: 990px) {
+    /* section padding を “中身側” に寄せる（100vhと相性良くする） */
+    .section-{{ section.id }}-padding {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    .lucent-collection {
+      padding-left: 40px;
+      padding-right: 40px;
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    .lucent-collection__grid {
+      grid-template-columns: 220px 1fr;
+      gap: 2.4rem;
+      align-items: start;
+    }
+
+    .lucent-collection__sidebar {
+      position: sticky;
+      top: var(--lucent-collection-offset, 0px);
+      align-self: start;
+      padding-top: 0.2rem;
+      overflow: hidden;
+    }
+
+    .lucent-collection__main-inner {
+      padding-bottom: 6rem;
+    }
+
     .lucent-collection #product-grid.product-grid {
       column-gap: 6.0rem;
       row-gap: 6.4rem;
     }
   }
 
-  /* Pagination spacing */
-  .lucent-collection .pagination-wrapper {
-    margin-top: 4.8rem;
+  /* ===== Hard fix: prevent inner scroll content from inflating root (html) scrollHeight ===== */
+  @media screen and (min-width: 990px) {
+    .lucent-collection {
+      height: calc(100vh - var(--lucent-collection-offset, 0px)) !important;
+      min-height: 520px;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    .lucent-collection__grid {
+      height: 100% !important;
+      min-height: 0 !important;
+      overflow: hidden;
+    }
+
+    .lucent-collection__sidebar {
+      max-height: 100% !important;
+    }
+
+    .lucent-collection__main {
+      height: 100% !important;
+      min-height: 0 !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      -webkit-overflow-scrolling: touch;
+      contain: layout paint;
+      padding-right: 0.4rem;
+
+      /* ===== Hide scrollbar completely (right column only) ===== */
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE / old Edge */
+    }
+
+    .lucent-collection__main::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      display: none;
+    }
+
+    .lucent-collection__main-inner {
+      max-width: 100%;
+    }
   }
 {%- endstyle -%}
 
@@ -114,103 +220,86 @@
   <div class="lucent-collection">
     {%- paginate collection.products by section.settings.products_per_page -%}
       <div class="lucent-collection__grid">
-        {%- if section.settings.enable_sidebar_collections -%}
-          <aside class="lucent-collection__sidebar" aria-label="Collections">
-            {%- if section.settings.sidebar_title != blank -%}
-              <p class="lucent-collection__sidebar-title">{{ section.settings.sidebar_title | escape }}</p>
-            {%- endif -%}
-
-            {%- assign sidebar_menu = linklists[section.settings.sidebar_menu] -%}
-            {%- if sidebar_menu != blank and sidebar_menu.links.size > 0 -%}
-              <ul class="lucent-collection__sidebar-nav">
-                {%- for l in sidebar_menu.links -%}
-                  {%- liquid
-                    assign is_current = false
-                    if l.url == collection.url
-                      assign is_current = true
-                    endif
-                  -%}
-                  <li>
-                    <a href="{{ l.url }}" {% if is_current %}aria-current="page"{% endif %}>
-                      {{ l.title | escape }}
-                    </a>
-                  </li>
-                {%- endfor -%}
-              </ul>
-            {%- else -%}
-              <p style="opacity:.7; margin:0;">
-                Sidebar menu not found. Set “Sidebar menu” in theme editor.
-              </p>
-            {%- endif -%}
+        {%- if section.settings.enable_tag_sidebar -%}
+          <aside class="lucent-collection__sidebar" aria-label="Categories">
+            <ul class="lucent-collection__sidebar-nav">
+              <li><a href="/collections/all" {% if is_all %}aria-current="page"{% endif %}>All</a></li>
+              <li><a href="/collections/all/new" {% if is_new %}aria-current="page"{% endif %}>New Arrivals</a></li>
+              <li><a href="/collections/all/special" {% if is_special %}aria-current="page"{% endif %}>Special line</a></li>
+              <li><a href="/collections/all/daily" {% if is_daily %}aria-current="page"{% endif %}>Daily line</a></li>
+              <li><a href="/collections/all/milk" {% if is_milk %}aria-current="page"{% endif %}>For Milk</a></li>
+              <li><a href="/collections/all/decaf" {% if is_decaf %}aria-current="page"{% endif %}>Caffeine less</a></li>
+              <li><a href="/collections/all/subscription" {% if is_subscription %}aria-current="page"{% endif %}>Subscription</a></li>
+              <li><a href="/collections/all/goods" {% if is_goods %}aria-current="page"{% endif %}>Goods</a></li>
+            </ul>
           </aside>
         {%- endif -%}
 
-        <main>
-          <header class="lucent-collection__header">
-            <h1 class="lucent-collection__title">{{ collection.title | escape }}</h1>
-          </header>
+        <main class="lucent-collection__main">
+          <div class="lucent-collection__main-inner">
+            <header class="lucent-collection__header">
+              <h1 class="lucent-collection__title">Items</h1>
+            </header>
 
-          <div
-            class="product-grid-container"
-            id="ProductGridContainer"
-          >
-            {%- if collection.products.size == 0 -%}
-              <div class="collection collection--empty" id="product-grid" data-id="{{ section.id }}">
-                <div class="loading-overlay gradient"></div>
-                <div class="title-wrapper center">
-                  <h2 class="title title--primary">
-                    {{ 'sections.collection_template.empty' | t -}}
-                    <br>
-                    {{
-                      'sections.collection_template.use_fewer_filters_html'
-                      | t: link: collection.url, class: 'underlined-link link'
-                    }}
-                  </h2>
+            <div class="product-grid-container" id="ProductGridContainer">
+              {%- if collection.products.size == 0 -%}
+                <div class="collection collection--empty" id="product-grid" data-id="{{ section.id }}">
+                  <div class="loading-overlay gradient"></div>
+                  <div class="title-wrapper center">
+                    <h2 class="title title--primary">
+                      {{ 'sections.collection_template.empty' | t -}}
+                      <br>
+                      {{
+                        'sections.collection_template.use_fewer_filters_html'
+                        | t: link: all_url, class: 'underlined-link link'
+                      }}
+                    </h2>
+                  </div>
                 </div>
-              </div>
-            {%- else -%}
-              <div class="collection">
-                <div class="loading-overlay gradient"></div>
+              {%- else -%}
+                <div class="collection">
+                  <div class="loading-overlay gradient"></div>
 
-                <ul
-                  id="product-grid"
-                  data-id="{{ section.id }}"
-                  class="
-                    grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
-                    grid--{{ section.settings.columns_desktop }}-col-desktop
-                  "
-                >
-                  {% assign skip_card_product_styles = false %}
-                  {%- for product in collection.products -%}
-                    {% assign lazy_load = false %}
-                    {%- if forloop.index > 2 -%}
-                      {%- assign lazy_load = true -%}
-                    {%- endif -%}
+                  <ul
+                    id="product-grid"
+                    data-id="{{ section.id }}"
+                    class="
+                      grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
+                      grid--{{ section.settings.columns_desktop }}-col-desktop
+                    "
+                  >
+                    {% assign skip_card_product_styles = false %}
+                    {%- for product in collection.products -%}
+                      {% assign lazy_load = false %}
+                      {%- if forloop.index > 2 -%}
+                        {%- assign lazy_load = true -%}
+                      {%- endif -%}
 
-                    <li class="grid__item">
-                      {% render 'card-product',
-                        card_product: product,
-                        media_aspect_ratio: section.settings.image_ratio,
-                        image_shape: section.settings.image_shape,
-                        show_secondary_image: section.settings.show_secondary_image,
-                        show_vendor: section.settings.show_vendor,
-                        show_rating: section.settings.show_rating,
-                        lazy_load: lazy_load,
-                        skip_styles: skip_card_product_styles,
-                        quick_add: section.settings.quick_add,
-                        section_id: section.id
-                      %}
-                    </li>
+                      <li class="grid__item">
+                        {% render 'card-product',
+                          card_product: product,
+                          media_aspect_ratio: section.settings.image_ratio,
+                          image_shape: section.settings.image_shape,
+                          show_secondary_image: section.settings.show_secondary_image,
+                          show_vendor: section.settings.show_vendor,
+                          show_rating: section.settings.show_rating,
+                          lazy_load: lazy_load,
+                          skip_styles: skip_card_product_styles,
+                          quick_add: section.settings.quick_add,
+                          section_id: section.id
+                        %}
+                      </li>
 
-                    {%- assign skip_card_product_styles = true -%}
-                  {%- endfor -%}
-                </ul>
+                      {%- assign skip_card_product_styles = true -%}
+                    {%- endfor -%}
+                  </ul>
 
-                {%- if paginate.pages > 1 -%}
-                  {% render 'pagination', paginate: paginate, anchor: '' %}
-                {%- endif -%}
-              </div>
-            {%- endif -%}
+                  {%- if paginate.pages > 1 -%}
+                    {% render 'pagination', paginate: paginate, anchor: '' %}
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            </div>
           </div>
         </main>
       </div>
@@ -223,30 +312,9 @@
   "name": "Lucent Collection Grid",
   "class": "section",
   "settings": [
-    {
-      "type": "range",
-      "id": "products_per_page",
-      "min": 8,
-      "max": 36,
-      "step": 4,
-      "default": 16,
-      "label": "Products per page"
-    },
-    {
-      "type": "range",
-      "id": "columns_desktop",
-      "min": 1,
-      "max": 6,
-      "step": 1,
-      "default": 3,
-      "label": "Columns desktop"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-1"
-    },
+    { "type": "range", "id": "products_per_page", "min": 8, "max": 36, "step": 4, "default": 12, "label": "Products per page" },
+    { "type": "range", "id": "columns_desktop", "min": 1, "max": 6, "step": 1, "default": 3, "label": "Columns desktop" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     {
       "type": "select",
       "id": "image_ratio",
@@ -274,24 +342,9 @@
       "default": "default",
       "label": "Image shape"
     },
-    {
-      "type": "checkbox",
-      "id": "show_secondary_image",
-      "default": false,
-      "label": "Show secondary image"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_vendor",
-      "default": false,
-      "label": "Show vendor"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_rating",
-      "default": false,
-      "label": "Show rating"
-    },
+    { "type": "checkbox", "id": "show_secondary_image", "default": false, "label": "Show secondary image" },
+    { "type": "checkbox", "id": "show_vendor", "default": false, "label": "Show vendor" },
+    { "type": "checkbox", "id": "show_rating", "default": false, "label": "Show rating" },
     {
       "type": "select",
       "id": "quick_add",
@@ -303,33 +356,7 @@
         { "value": "bulk", "label": "Bulk" }
       ]
     },
-
-    {
-      "type": "header",
-      "content": "Sidebar"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_sidebar_collections",
-      "default": true,
-      "label": "Enable collections sidebar"
-    },
-    {
-      "type": "link_list",
-      "id": "sidebar_menu",
-      "label": "Sidebar menu"
-    },
-    {
-      "type": "text",
-      "id": "sidebar_title",
-      "label": "Sidebar title",
-      "default": "All"
-    },
-
-    {
-      "type": "header",
-      "content": "Mobile"
-    },
+    { "type": "checkbox", "id": "enable_tag_sidebar", "default": true, "label": "Enable left sidebar" },
     {
       "type": "select",
       "id": "columns_mobile",
@@ -340,31 +367,8 @@
         { "value": "2", "label": "2" }
       ]
     },
-
-    {
-      "type": "header",
-      "content": "Padding"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "Padding top",
-      "default": 40
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 140,
-      "step": 4,
-      "unit": "px",
-      "label": "Padding bottom",
-      "default": 80
-    }
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding top", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 140, "step": 4, "unit": "px", "label": "Padding bottom", "default": 80 }
   ]
 }
 {% endschema %}
