@@ -9,8 +9,8 @@
  */
 {
   "current": {
-    "logo": "shopify://shop_images/logo-_5_3x_648980a6-449d-4dd4-9103-d4e9f09aeedd.png",
-    "logo_width": 100,
+    "logo": "shopify://shop_images/logo.svg",
+    "logo_width": 90,
     "type_header_font": "montserrat_n4",
     "heading_scale": 100,
     "type_body_font": "montserrat_n4",
