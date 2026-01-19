@@ -27,7 +27,7 @@
           "settings": {
             "image": "shopify://shop_images/new-arrivals.png",
             "label": "New arrivals",
-            "link": "/collections/new-arrivals",
+            "link": "/collections/all/new",
             "size": "small"
           }
         },
