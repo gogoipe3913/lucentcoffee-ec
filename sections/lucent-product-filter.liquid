@@ -1,0 +1,83 @@
+
+
+{%- style -%}
+  .lucent-product-filter {
+    max-width: {{ settings.page_width }}px;
+    margin: 0 auto;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media screen and (min-width: 990px) {
+    .lucent-product-filter__sidebar {
+      position: fixed;
+      top: calc(var(--header-height) + 40px);
+      left: 40px;
+      width: 180px;
+
+      height: calc(100vh - var(--header-height, 0px));
+      overflow: hidden;
+      padding-top: 0.2rem;
+      z-index: 20;
+      font-size: 1.3rem;
+      line-height: 1.6;
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    .lucent-product-filter__sidebar {
+      display: none;
+    }
+  }
+
+  .lucent-product-filter__nav {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .lucent-product-filter__nav a {
+    display: inline-block;
+    padding: 0.35rem 0;
+    text-decoration: none;
+    color: inherit;
+    opacity: 0.75;
+  }
+
+  .lucent-product-filter__nav a:hover {
+    opacity: 1;
+  }
+
+  .lucent-product-filter__nav a[aria-current="page"] {
+    opacity: 1;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+{%- endstyle -%}
+
+{%- if section.settings.enable_tag_sidebar -%}
+  <div class="lucent-product-filter color-{{ section.settings.color_scheme }}">
+    <aside class="lucent-product-filter__sidebar" aria-label="Categories">
+      <ul class="lucent-product-filter__nav">
+        <li><a href="/collections/all">All</a></li>
+        <li><a href="/collections/all/new">New Arrivals</a></li>
+        <li><a href="/collections/all/special">Special Line</a></li>
+        <li><a href="/collections/all/daily">Daily Line</a></li>
+        <li><a href="/collections/all/milk">For Milk</a></li>
+        <li><a href="/collections/all/decaf">Caffeine Less</a></li>
+        <li><a href="/collections/all/subscription">Subscription</a></li>
+        <li><a href="/collections/all/goods">Goods</a></li>
+      </ul>
+    </aside>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Lucent Product Filter",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "checkbox", "id": "enable_tag_sidebar", "default": true, "label": "Enable left sidebar" }
+  ]
+}
+{% endschema %}

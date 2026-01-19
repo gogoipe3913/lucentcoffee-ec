@@ -1,0 +1,266 @@
+/* =========================================================
+   Lucent PDP Parallax (Dawn) - CSS
+   - Right only scrolls (.lucent-pdp__main)
+   - NO "window" (no overflow:hidden frame)
+   - Media wrapper is transform target (JS adds translate to create parallax lag)
+========================================================= */
+
+.lucent-pdp {
+  --lucent-text: rgba(0, 0, 0, 0.78);
+  --lucent-muted: rgba(0, 0, 0, 0.55);
+  --lucent-line: rgba(0, 0, 0, 0.12);
+  --lucent-black: #1b1b1b;
+
+  /* match collection sidebar */
+  --lucent-sidebar-width: 180px;
+  --lucent-sidebar-gap: 0.5rem;
+
+  /* layout */
+  --lucent-media-wrapper: 600px;
+  --lucent-info-width: 420px;
+  --lucent-col-gap: 32px;
+}
+
+/* Container */
+.lucent-pdp__container {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding-left: 2.4rem;
+  padding-right: 2.4rem;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   Desktop: right scroll area + 2 columns
+========================================================= */
+@media screen and (min-width: 990px) {
+  .lucent-pdp.section {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .lucent-pdp__container {
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 40px;
+    padding-bottom: 0;
+
+    height: calc(100vh - var(--lucent-pdp-offset, 0px));
+    min-height: 520px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Right side scroll area */
+  .lucent-pdp__main {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+
+    margin-left: calc(var(--lucent-sidebar-width) + var(--lucent-sidebar-gap));
+    padding-right: 0.4rem;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .lucent-pdp__main::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+
+  .lucent-pdp__main-inner {
+    padding-bottom: 6rem;
+    max-width: 100%;
+  }
+
+  /* Product grid: left media / right info */
+  .lucent-pdp .product {
+    display: grid;
+    grid-template-columns: minmax(0, var(--lucent-media-wrapper)) minmax(
+        0,
+        var(--lucent-info-width)
+      );
+    gap: var(--lucent-col-gap);
+    align-items: start;
+  }
+
+  .lucent-pdp .product__media-wrapper,
+  .lucent-pdp .product__info-wrapper {
+    min-width: 0;
+    width: auto !important;
+    max-width: none !important;
+    overflow: visible;
+  }
+
+  .lucent-pdp .product__media-wrapper {
+    grid-column: 1;
+  }
+  .lucent-pdp .product__info-wrapper {
+    grid-column: 2;
+  }
+
+  /* ✅ Parallax target (JS will transform this wrapper) */
+  .lucent-pdp .product__media-wrapper {
+    position: relative;
+    overflow: visible; /* ✅ no "frame" */
+    height: auto;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+  }
+
+  /* If you kept the inner wrapper, neutralize it */
+  .lucent-pdp .product__media-wrapper .lucent-parallax {
+    will-change: auto;
+    transform: none;
+  }
+
+  /* Optional: keep info sticky behavior if enabled */
+  .lucent-pdp .product__column-sticky {
+    top: 0;
+  }
+}
+
+/* =========================================================
+   Mobile: normal flow
+========================================================= */
+@media screen and (max-width: 989px) {
+  .lucent-pdp__main {
+    overflow: visible;
+    margin-left: 0;
+    padding-right: 0;
+  }
+
+  .lucent-pdp .product {
+    display: block;
+  }
+
+  .lucent-pdp .product__media-wrapper {
+    transform: none !important;
+    will-change: auto;
+  }
+}
+
+/* =========================================================
+   Typography / UI
+========================================================= */
+.lucent-pdp .product__title h1 {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--lucent-text);
+  margin: 0 0 10px;
+}
+
+.lucent-pdp .price__regular .price-item,
+.lucent-pdp .price__sale .price-item {
+  font-size: 12px;
+  color: var(--lucent-text);
+}
+
+.lucent-pdp .product__tax {
+  margin-top: 6px;
+  color: var(--lucent-muted);
+}
+
+/* Quantity */
+.lucent-pdp quantity-input.quantity {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lucent-pdp .quantity__label {
+  display: none;
+}
+
+.lucent-pdp .quantity__button {
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--lucent-line);
+  border-radius: 9999px;
+  background: transparent;
+  padding: 0;
+}
+
+.lucent-pdp .quantity__button .svg-wrapper {
+  width: 10px;
+  height: 10px;
+}
+
+.lucent-pdp .quantity__input {
+  width: 34px;
+  min-width: 34px;
+  border: 0;
+  background: transparent;
+  text-align: center;
+  padding: 0;
+  font-size: 12px;
+  color: var(--lucent-text);
+}
+
+/* Add to cart */
+.lucent-pdp .product-form__buttons {
+  margin-top: 12px;
+}
+
+.lucent-pdp .product-form__submit.button {
+  width: 100%;
+  border-radius: 9999px;
+  background: var(--lucent-black);
+  color: #fff;
+  min-height: 40px;
+  padding: 12px 16px;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.lucent-pdp .product-form__submit.button::after {
+  display: none;
+}
+
+.lucent-pdp .shopify-payment-button {
+  display: none !important;
+}
+
+/* Specs */
+.lucent-pdp__specs {
+  margin-top: 18px;
+  border-top: 1px solid var(--lucent-line);
+}
+
+.lucent-pdp__spec-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--lucent-line);
+  font-size: 12px;
+}
+
+.lucent-pdp__spec-label {
+  color: var(--lucent-muted);
+  white-space: nowrap;
+}
+
+.lucent-pdp__spec-value {
+  color: var(--lucent-text);
+  text-align: right;
+}
+
+/* Text */
+.lucent-pdp__text {
+  margin-top: 18px;
+  color: var(--lucent-text);
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.lucent-pdp__story-title {
+  margin: 18px 0 8px;
+  color: var(--lucent-muted);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
