@@ -57,7 +57,7 @@
           "settings": {
             "image": "shopify://shop_images/goods.png",
             "label": "Goods",
-            "link": "/collections/goods",
+            "link": "/collections/all/goods",
             "size": "small"
           }
         }
