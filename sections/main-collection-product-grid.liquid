@@ -78,10 +78,14 @@
     padding-right: 2.4rem;
   }
 
+  /* ===============================
+     Layout: remove grid coupling (desktop)
+     - Sidebar becomes fixed
+     - Main becomes scroll area (inside section viewport)
+  =============================== */
+
   .lucent-collection__grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 3.2rem;
+    display: block; /* ✅ grid をやめてレイアウトを切り離す */
   }
 
   .lucent-collection__sidebar {
@@ -134,72 +138,59 @@
   }
 
   @media screen and (min-width: 990px) {
-    /* section padding を “中身側” に寄せる（100vhと相性良くする） */
+    /* section padding を “中身側” に寄せる */
     .section-{{ section.id }}-padding {
       padding-top: 0;
       padding-bottom: 0;
     }
 
+    /* セクションをビューポート内に固定（右だけスクロールの基盤） */
     .lucent-collection {
       padding-left: 40px;
       padding-right: 40px;
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
-    }
 
-    .lucent-collection__grid {
-      grid-template-columns: 220px 1fr;
-      gap: 2.0rem;
-      align-items: start;
-    }
-
-    .lucent-collection__sidebar {
-      position: sticky;
-      top: var(--lucent-collection-offset, 0px);
-      align-self: start;
-      padding-top: 0.2rem;
-      overflow: hidden;
-    }
-
-    .lucent-collection__main-inner {
-      padding-bottom: 6rem;
-    }
-
-    .lucent-collection #product-grid.product-grid {
-      column-gap: 1.6rem;
-      row-gap: 6.4rem;
-    }
-  }
-
-  /* ===== Hard fix: prevent inner scroll content from inflating root (html) scrollHeight ===== */
-  @media screen and (min-width: 990px) {
-    .lucent-collection {
-      height: calc(100vh - var(--lucent-collection-offset, 0px)) !important;
+      height: calc(100vh - var(--lucent-collection-offset, 0px));
       min-height: 520px;
       box-sizing: border-box;
-      overflow: hidden;
+      overflow: hidden; /* ✅ 右スクロールの“閉じた箱” */
+      position: relative;
     }
 
-    .lucent-collection__grid {
-      height: 100% !important;
-      min-height: 0 !important;
-      overflow: hidden;
-    }
-
+    /* ===== Left: fixed sidebar (decoupled) ===== */
     .lucent-collection__sidebar {
-      max-height: 100% !important;
+      position: fixed;
+      top: calc(var(--header-height) + {{ section.settings.padding_top }}px);
+      left: 40px;
+      width: 220px;
+
+      height: calc(
+        100vh
+        - var(--header-height, 0px)
+        - {{ section.settings.padding_top }}px
+        - {{ section.settings.padding_bottom }}px
+      );
+
+      overflow: hidden;
+      padding-top: 0.2rem;
+      z-index: 10;
     }
 
+
+    /* ===== Right: scroll area ===== */
     .lucent-collection__main {
-      height: 100% !important;
-      min-height: 0 !important;
-      overflow-y: auto !important;
-      overflow-x: hidden !important;
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
       contain: layout paint;
+
+      /* 左の fixed sidebar 分だけ避ける */
+      margin-left: calc(220px + 2.0rem);
       padding-right: 0.4rem;
 
-      /* ===== Hide scrollbar completely (right column only) ===== */
+      /* scrollbar hide (right only) */
       scrollbar-width: none; /* Firefox */
       -ms-overflow-style: none; /* IE / old Edge */
     }
@@ -211,7 +202,13 @@
     }
 
     .lucent-collection__main-inner {
+      padding-bottom: 6rem;
       max-width: 100%;
+    }
+
+    .lucent-collection #product-grid.product-grid {
+      column-gap: 1.6rem;
+      row-gap: 6.4rem;
     }
   }
 {%- endstyle -%}
@@ -225,10 +222,10 @@
             <ul class="lucent-collection__sidebar-nav">
               <li><a href="/collections/all" {% if is_all %}aria-current="page"{% endif %}>All</a></li>
               <li><a href="/collections/all/new" {% if is_new %}aria-current="page"{% endif %}>New Arrivals</a></li>
-              <li><a href="/collections/all/special" {% if is_special %}aria-current="page"{% endif %}>Special line</a></li>
-              <li><a href="/collections/all/daily" {% if is_daily %}aria-current="page"{% endif %}>Daily line</a></li>
+              <li><a href="/collections/all/special" {% if is_special %}aria-current="page"{% endif %}>Special Line</a></li>
+              <li><a href="/collections/all/daily" {% if is_daily %}aria-current="page"{% endif %}>Daily Line</a></li>
               <li><a href="/collections/all/milk" {% if is_milk %}aria-current="page"{% endif %}>For Milk</a></li>
-              <li><a href="/collections/all/decaf" {% if is_decaf %}aria-current="page"{% endif %}>Caffeine less</a></li>
+              <li><a href="/collections/all/decaf" {% if is_decaf %}aria-current="page"{% endif %}>Caffeine Less</a></li>
               <li><a href="/collections/all/subscription" {% if is_subscription %}aria-current="page"{% endif %}>Subscription</a></li>
               <li><a href="/collections/all/goods" {% if is_goods %}aria-current="page"{% endif %}>Goods</a></li>
             </ul>
@@ -238,7 +235,16 @@
         <main class="lucent-collection__main">
           <div class="lucent-collection__main-inner">
             <header class="lucent-collection__header">
-              <h1 class="lucent-collection__title">Items</h1>
+              <h1 class="lucent-collection__title">
+                {% if is_all %}All{% endif %}
+                {% if is_new %}New Arrivals{% endif %}
+                {% if is_special %}Special Line{% endif %}
+                {% if is_daily %}Daily Line{% endif %}
+                {% if is_milk %}For Milk{% endif %}
+                {% if is_decaf %}Caffeine Less{% endif %}
+                {% if is_subscription %}Subscription{% endif %}
+                {% if is_goods %}Goods{% endif %}
+              </h1>
             </header>
 
             <div class="product-grid-container" id="ProductGridContainer">
