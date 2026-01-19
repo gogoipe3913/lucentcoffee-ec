@@ -37,7 +37,7 @@
           "settings": {
             "image": "shopify://shop_images/special-coffee.png",
             "label": "Special coffee",
-            "link": "/collections/special-coffee",
+            "link": "/collections/all/special",
             "size": "small"
           }
         },
@@ -47,7 +47,7 @@
           "settings": {
             "image": "shopify://shop_images/daily-coffee.png",
             "label": "Daily coffee",
-            "link": "/collections/daily-coffee",
+            "link": "/collections/all/daily",
             "size": "small"
           }
         },
