@@ -1,0 +1,97 @@
+/* =========================================================
+   News list page
+   Used by: page.news / main-page-news.liquid
+   Scoped safely with .main-blog-news
+   ========================================================= */
+
+.main-blog-news {
+  width: 100%;
+}
+
+/* --- Layout ------------------------------------------------ */
+
+.main-blog-news__grid {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  column-gap: 72px;
+  align-items: start;
+}
+
+@media screen and (max-width: 749px) {
+  .main-blog-news__grid {
+    grid-template-columns: 1fr;
+    row-gap: 24px;
+  }
+}
+
+/* --- Heading ------------------------------------------------ */
+
+.main-blog-news__heading {
+  margin: 0;
+  font-size: 2.4rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+}
+
+/* --- List wrapper ------------------------------------------ */
+
+.main-blog-news__list {
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+/* --- Row --------------------------------------------------- */
+
+.main-blog-news__row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  column-gap: 28px;
+
+  padding: 22px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+
+  color: inherit;
+  text-decoration: none;
+}
+
+.main-blog-news__row:first-child {
+  border-top: none;
+}
+
+@media screen and (max-width: 749px) {
+  .main-blog-news__row {
+    grid-template-columns: 96px 1fr;
+    column-gap: 16px;
+    padding: 18px 0;
+  }
+}
+
+/* --- Date -------------------------------------------------- */
+
+.main-blog-news__date {
+  font-size: 1.3rem;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* --- Text -------------------------------------------------- */
+
+.main-blog-news__text {
+  font-size: 1.3rem;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+
+/* --- Hover ------------------------------------------------- */
+
+.main-blog-news__row:hover .main-blog-news__text {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+/* --- Pagination -------------------------------------------- */
+
+.main-blog-news__pagination {
+  margin-top: 32px;
+}
