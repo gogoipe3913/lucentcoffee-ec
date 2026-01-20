@@ -10,9 +10,8 @@
 {
   "sections": {
     "main": {
-      "type": "main-page-news",
+      "type": "main-blog-news",
       "settings": {
-        "blog": "news",
         "posts_per_page": 50,
         "show_date": true,
         "padding_top": 36,

@@ -1,0 +1,100 @@
+{{ 'section-main-blog-news.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- paginate blog.articles by section.settings.posts_per_page -%}
+  <div class="main-blog-news page-width section-{{ section.id }}-padding">
+    <div class="main-blog-news__grid">
+      <h1 class="main-blog-news__heading">
+        {{ blog.title | escape }}
+      </h1>
+
+      <div class="main-blog-news__list" aria-label="{{ blog.title | escape }}">
+        {%- for article in blog.articles -%}
+          <a
+            class="main-blog-news__row"
+            href="{{ article.url }}"
+            aria-label="{{ article.title | escape }}"
+          >
+            {%- if section.settings.show_date -%}
+              <div class="main-blog-news__date">
+                {{ article.published_at | date: "%y.%m.%d" }}
+              </div>
+            {%- endif -%}
+
+            <div class="main-blog-news__text">
+              {{ article.title | escape }}
+            </div>
+          </a>
+        {%- endfor -%}
+
+        {%- if paginate.pages > 1 -%}
+          <div class="main-blog-news__pagination">
+            {%- render 'pagination', paginate: paginate -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Main blog (News list)",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "posts_per_page",
+      "min": 6,
+      "max": 50,
+      "step": 1,
+      "label": "Posts per page",
+      "default": 50
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "default": true,
+      "label": "Show date"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 220,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 120
+    }
+  ]
+}
+{% endschema %}
