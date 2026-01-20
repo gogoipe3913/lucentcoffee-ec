@@ -117,12 +117,18 @@
 
                   {%- when 'price' -%}
                     <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
-                      {%- render 'price',
-                        product: product,
-                        use_variant: true,
-                        show_badges: false,
-                        price_class: 'price--large'
-                      -%}
+                      {%- assign v = product.selected_or_first_available_variant -%}
+
+                      <span class="lucent-price">
+                        {%- if v.compare_at_price and v.compare_at_price > v.price -%}
+                          <span class="lucent-price__current">{{ v.price | money }}</span>
+                          <s class="lucent-price__compare">{{ v.compare_at_price | money }}</s>
+                        {%- else -%}
+                          <span class="lucent-price__current">{{ v.price | money }}</span>
+                        {%- endif -%}
+
+                        <span class="lucent-price__tax">(tax included)</span>
+                      </span>
                     </div>
 
                     {%- if cart.taxes_included or cart.duties_included or shop.shipping_policy.body != blank -%}
