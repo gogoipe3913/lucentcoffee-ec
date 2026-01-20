@@ -14,9 +14,23 @@
       "settings": {
         "max_width": 1040,
         "padding_top": 56,
-        "padding_bottom": 96
+        "padding_bottom": 96,
+        "hero_title": "人々の暮らしに自然に溶け込み、\n輝き、豊かにすること",
+        "hero_sub": "seamlessly integrating into people’s lives,\nshining light, and enriching everyday experience.",
+        "hero_image": "shopify://shop_images/20220510-2_1.png",
+        "story_label": "Story",
+        "story_text": "<p>LUCENT は、「人々の暮らしに自然に溶け込み、輝き、豊かにすること」をコンセプトに、2019 年に東京でオープンしました。<br/><br/>店名「LUCENT」には、“半透明”と“輝く”という意味が込められています。浅煎りのコーヒーは、朝陽を浴びると半透明に透け、光を通してきらきらと輝きます。その美しい情景を思い描きながら、私たちはお客様に、時間を忘れてゆっくりとコーヒーを楽しんでいただきたいと願っています。<br/><br/>LUCENT では、豆の個性を最大限に引き出すため、浅煎りのコーヒーのみをご提供しています。それは、主張しすぎず、気がつけば日常に溶け込むような、毎日飲みたくなるコーヒーを目指しているからです。お店で過ごすひとときや、コーヒーを味わう時間が、忙しい日々の癒しや活力となれば幸いです。LUCENTのコーヒーが、皆さまの暮らしを豊かに彩りますように。</p>",
+        "image_1": "shopify://shop_images/20220510-110_1.png",
+        "image_2": "shopify://shop_images/20220510-39_1.png",
+        "history_label": "History",
+        "history_text": "<p>カウンター越しに交わされる会話や、季節の光が差し込む空気感など、街に根差した時間を大切にしています。</p><p>豆の選定から抽出、提供に至るまで、味わいの輪郭と温度、香りの立ち上がりを丁寧に整えながら、今日の一杯をつくっています。</p>",
+        "wide_image": "shopify://shop_images/20190801-40_1_1.png",
+        "cta_label": "VIEW COFFEES",
+        "cta_url": ""
       }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
