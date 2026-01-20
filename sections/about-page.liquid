@@ -1,0 +1,241 @@
+{{ 'section-about-page.css' | asset_url | stylesheet_tag }}
+
+<section class="lc-about" style="--lc-about-max: {{ section.settings.max_width }}px; --lc-pt: {{ section.settings.padding_top }}px; --lc-pb: {{ section.settings.padding_bottom }}px;">
+  <div class="lc-about__inner">
+    {%- comment -%}
+      HERO
+    {%- endcomment -%}
+    <header class="lc-about-hero">
+      <div class="lc-about-hero__copy">
+        {%- if section.settings.hero_title != blank -%}
+          <h1 class="lc-about-hero__title">{{ section.settings.hero_title | escape | newline_to_br }}</h1>
+        {%- endif -%}
+
+        {%- if section.settings.hero_sub != blank -%}
+          <p class="lc-about-hero__sub">{{ section.settings.hero_sub | escape | newline_to_br }}</p>
+        {%- endif -%}
+      </div>
+    </header>
+
+    {%- if section.settings.hero_image != blank -%}
+      <div class="lc-about-hero-media">
+        {{
+          section.settings.hero_image
+          | image_url: width: 2000
+          | image_tag:
+            loading: 'lazy',
+            class: 'lc-about-hero-media__img',
+            widths: '800, 1200, 1600, 2000'
+        }}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%}
+      STORY
+    {%- endcomment -%}
+    <div class="lc-about-block lc-about-block--story">
+      <div class="lc-about-block__head">
+        <p class="lc-about-block__kicker">{{ section.settings.story_label | escape }}</p>
+      </div>
+
+      <div class="lc-about-block__body">
+        {%- if section.settings.story_text != blank -%}
+          <div class="lc-about-richtext rte">
+            {{ section.settings.story_text }}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%}
+      2 IMAGES ROW
+    {%- endcomment -%}
+    <div class="lc-about-gallery lc-about-gallery--two">
+      {%- if section.settings.image_1 != blank -%}
+        <figure class="lc-about-gallery__item">
+          {{
+            section.settings.image_1
+            | image_url: width: 1400
+            | image_tag:
+              loading: 'lazy',
+              class: 'lc-about-gallery__img',
+              widths: '600, 900, 1200, 1400'
+          }}
+        </figure>
+      {%- endif -%}
+
+      {%- if section.settings.image_2 != blank -%}
+        <figure class="lc-about-gallery__item lc-about-gallery__item--narrow">
+          {{
+            section.settings.image_2
+            | image_url: width: 1400
+            | image_tag:
+              loading: 'lazy',
+              class: 'lc-about-gallery__img',
+              widths: '600, 900, 1200, 1400'
+          }}
+        </figure>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%}
+      HISTORY
+    {%- endcomment -%}
+    <div class="lc-about-block lc-about-block--history">
+      <div class="lc-about-block__head">
+        <p class="lc-about-block__kicker">{{ section.settings.history_label | escape }}</p>
+      </div>
+
+      <div class="lc-about-block__body">
+        {%- if section.settings.history_text != blank -%}
+          <div class="lc-about-richtext rte">
+            {{ section.settings.history_text }}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%}
+      WIDE IMAGE
+    {%- endcomment -%}
+    {%- if section.settings.wide_image != blank -%}
+      <div class="lc-about-wide">
+        {{
+          section.settings.wide_image
+          | image_url: width: 2400
+          | image_tag:
+            loading: 'lazy',
+            class: 'lc-about-wide__img',
+            widths: '900, 1400, 1800, 2400'
+        }}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%}
+      CTA
+    {%- endcomment -%}
+    {%- if section.settings.cta_label != blank and section.settings.cta_url != blank -%}
+      <div class="lc-about-cta">
+        <a class="lc-about-cta__link" href="{{ section.settings.cta_url }}">
+          <span class="lc-about-cta__text">{{ section.settings.cta_label | escape }}</span>
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "LC About page",
+  "settings": [
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 760,
+      "max": 1240,
+      "step": 20,
+      "unit": "px",
+      "label": "Max width",
+      "default": 1040
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 96
+    },
+
+    {
+      "type": "textarea",
+      "id": "hero_title",
+      "label": "Hero title",
+      "default": "人々の暮らしに自然に溶け込み、\n輝き、豊かにすること"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_sub",
+      "label": "Hero subtitle",
+      "default": "seamlessly integrating into people’s lives,\nshining light, and enriching everyday experience."
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image"
+    },
+
+    {
+      "type": "text",
+      "id": "story_label",
+      "label": "Story label",
+      "default": "Story"
+    },
+    {
+      "type": "richtext",
+      "id": "story_text",
+      "label": "Story text",
+      "default": "<p>LUCENTは、「人々の暮らしに自然に溶け込み、輝き、豊かにすること」をコンセプトに、2019年に東京・不動前に誕生しました。</p><p>店名「LUCENT」は、\"光輝く\"を意味する英語から由来しています。焙煎の香りや一杯のコーヒーが、日常を照らし、静かな余韻をもたらす存在でありたいと考えています。</p>"
+    },
+
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image 1 (left)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image 2 (right)"
+    },
+
+    {
+      "type": "text",
+      "id": "history_label",
+      "label": "History label",
+      "default": "History"
+    },
+    {
+      "type": "richtext",
+      "id": "history_text",
+      "label": "History text",
+      "default": "<p>カウンター越しに交わされる会話や、季節の光が差し込む空気感など、街に根差した時間を大切にしています。</p><p>豆の選定から抽出、提供に至るまで、味わいの輪郭と温度、香りの立ち上がりを丁寧に整えながら、今日の一杯をつくっています。</p>"
+    },
+
+    {
+      "type": "image_picker",
+      "id": "wide_image",
+      "label": "Wide image"
+    },
+
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "VIEW COFFEES"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA url"
+    }
+  ],
+  "presets": [
+    {
+      "name": "LC About page"
+    }
+  ]
+}
+{% endschema %}

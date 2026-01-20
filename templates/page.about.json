@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "about-page",
+      "settings": {
+        "max_width": 1040,
+        "padding_top": 56,
+        "padding_bottom": 96
+      }
+    }
+  },
+  "order": ["main"]
+}
