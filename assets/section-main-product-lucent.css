@@ -13,11 +13,11 @@
 
   /* match collection sidebar */
   --lucent-sidebar-width: 180px;
-  --lucent-sidebar-gap: 0.5rem;
+  --lucent-sidebar-gap: 1rem;
 
   /* layout */
-  --lucent-media-wrapper: 600px;
-  --lucent-info-width: 420px;
+  --lucent-media-wrapper: 620px;
+  --lucent-info-width: 368px;
   --lucent-col-gap: 32px;
 }
 
@@ -40,9 +40,13 @@
   }
 
   .lucent-pdp__container {
+    /* ヘッダーを透過して要素がスクロールされていくようにする */
+    position: relative;
+    top: -88px;
+
     padding-left: 40px;
     padding-right: 40px;
-    padding-top: 40px;
+    padding-top: 0;
     padding-bottom: 0;
 
     height: calc(100vh - var(--lucent-pdp-offset, 0px));
@@ -53,6 +57,8 @@
 
   /* Right side scroll area */
   .lucent-pdp__main {
+    /* 親がヘッダーまで広がっているので子で調整 (ヘッダー88px + 余白80px) */
+    padding: calc(var(--header-height) + 80px) 0 0;
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
@@ -145,12 +151,15 @@
 /* =========================================================
    Typography / UI
 ========================================================= */
+.lucent-pdp .product__title {
+  margin-bottom: 0px;
+}
 .lucent-pdp .product__title h1 {
-  font-size: 12px;
+  font-size: 20px;
   font-weight: 500;
   letter-spacing: 0.02em;
   color: var(--lucent-text);
-  margin: 0 0 10px;
+  margin: 0;
 }
 
 .lucent-pdp .price__regular .price-item,

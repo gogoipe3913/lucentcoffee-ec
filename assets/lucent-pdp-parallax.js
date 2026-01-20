@@ -11,7 +11,7 @@
   const speed =
     speedAttr != null && !Number.isNaN(Number(speedAttr))
       ? Number(speedAttr)
-      : 0.35;
+      : 0.3;
 
   let raf = 0;
 
