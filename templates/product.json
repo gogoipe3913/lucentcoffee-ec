@@ -49,11 +49,13 @@
           "type": "specs",
           "settings": {
             "spec_namespace": "custom",
+            "spec_washing_station_key": "washing_station",
             "spec_region_key": "region",
+            "spec_farmer_key": "farmer",
             "spec_variety_key": "variety",
             "spec_process_key": "process",
             "spec_elevation_key": "elevation",
-            "spec_note_key": "note"
+            "spec_flavor_note_key": "flavor_note"
           }
         },
         "description": {
@@ -112,9 +114,5 @@
       }
     }
   },
-  "order": [
-    "lucent_product_filter",
-    "main",
-    "related-products"
-  ]
+  "order": ["lucent_product_filter", "main", "related-products"]
 }

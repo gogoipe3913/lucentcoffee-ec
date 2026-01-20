@@ -211,18 +211,32 @@
                   {%- when 'specs' -%}
                     {%- liquid
                       assign spec_ns = block.settings.spec_namespace
+                      assign mf_washing_station = product.metafields[spec_ns][block.settings.spec_washing_station_key]
                       assign mf_region = product.metafields[spec_ns][block.settings.spec_region_key]
+                      assign mf_farmer = product.metafields[spec_ns][block.settings.spec_farmer_key]
                       assign mf_variety = product.metafields[spec_ns][block.settings.spec_variety_key]
                       assign mf_process = product.metafields[spec_ns][block.settings.spec_process_key]
                       assign mf_elevation = product.metafields[spec_ns][block.settings.spec_elevation_key]
-                      assign mf_note = product.metafields[spec_ns][block.settings.spec_note_key]
+                      assign mf_flavor_note = product.metafields[spec_ns][block.settings.spec_flavor_note_key]
                     -%}
 
                     <div class="lucent-pdp__specs" {{ block.shopify_attributes }}>
+                      {%- if mf_washing_station != blank -%}
+                        <div class="lucent-pdp__spec-row">
+                          <div class="lucent-pdp__spec-label">Washing Station</div>
+                          <div class="lucent-pdp__spec-value">{{ mf_washing_station.value | default: mf_washing_station }}</div>
+                        </div>
+                      {%- endif -%}
                       {%- if mf_region != blank -%}
                         <div class="lucent-pdp__spec-row">
                           <div class="lucent-pdp__spec-label">Region</div>
                           <div class="lucent-pdp__spec-value">{{ mf_region.value | default: mf_region }}</div>
+                        </div>
+                      {%- endif -%}
+                      {%- if mf_farmer != blank -%}
+                        <div class="lucent-pdp__spec-row">
+                          <div class="lucent-pdp__spec-label">Farmer</div>
+                          <div class="lucent-pdp__spec-value">{{ mf_farmer.value | default: mf_farmer }}</div>
                         </div>
                       {%- endif -%}
                       {%- if mf_variety != blank -%}
@@ -243,10 +257,10 @@
                           <div class="lucent-pdp__spec-value">{{ mf_elevation.value | default: mf_elevation }}</div>
                         </div>
                       {%- endif -%}
-                      {%- if mf_note != blank -%}
+                      {%- if mf_flavor_note != blank -%}
                         <div class="lucent-pdp__spec-row">
-                          <div class="lucent-pdp__spec-label">Note</div>
-                          <div class="lucent-pdp__spec-value">{{ mf_note.value | default: mf_note }}</div>
+                          <div class="lucent-pdp__spec-label">Flavor Note</div>
+                          <div class="lucent-pdp__spec-value">{{ mf_flavor_note.value | default: mf_flavor_note }}</div>
                         </div>
                       {%- endif -%}
                     </div>
@@ -429,11 +443,13 @@
       "limit": 1,
       "settings": [
         { "type": "text", "id": "spec_namespace", "label": "Metafield namespace", "default": "custom" },
+        { "type": "text", "id": "spec_washing_station_key", "label": "Washing Station key", "default": "washing station" },
         { "type": "text", "id": "spec_region_key", "label": "Region key", "default": "region" },
+        { "type": "text", "id": "spec_farmer_key", "label": "Farmer key", "default": "farmer" },
         { "type": "text", "id": "spec_variety_key", "label": "Variety key", "default": "variety" },
         { "type": "text", "id": "spec_process_key", "label": "Process key", "default": "process" },
         { "type": "text", "id": "spec_elevation_key", "label": "Elevation key", "default": "elevation" },
-        { "type": "text", "id": "spec_note_key", "label": "Note key", "default": "note" }
+        { "type": "text", "id": "spec_flavor_note_key", "label": "Flavor Note key", "default": "flavor note" }
       ]
     },
 

@@ -214,6 +214,7 @@
   font-size: 11px;
   min-width: auto;
   border-radius: 4px;
+  cursor: none;
 }
 
 /* 選択中 */
@@ -246,6 +247,7 @@
   border-radius: 9999px;
   background: transparent;
   padding: 0;
+  cursor: none;
 }
 
 .lucent-pdp .quantity__button .svg-wrapper {
