@@ -1,6 +1,6 @@
 /* =========================================================
    News list page
-   Used by: blog.news / main-blog-news.liquid
+   Used by: blog.json / main-blog-news.liquid
    Scoped safely with .main-blog-news
    ========================================================= */
 
@@ -47,15 +47,26 @@
   grid-template-columns: 120px 1fr;
   column-gap: 28px;
 
+  /* base spacing */
   padding: 22px 0;
   border-top: 1px solid rgba(0, 0, 0, 0.15);
 
   color: inherit;
   text-decoration: none;
+
+  /* interaction */
+  transition:
+    padding 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .main-blog-news__row:first-child {
   border-top: none;
+}
+
+.main-blog-news__row:hover {
+  padding: 60px 0; /* ← ここが「ニュッと」広がる */
+  color: rgba(196, 154, 120, 1);
 }
 
 @media screen and (max-width: 749px) {
@@ -63,6 +74,10 @@
     grid-template-columns: 96px 1fr;
     column-gap: 16px;
     padding: 18px 0;
+  }
+
+  .main-blog-news__row:hover {
+    padding: 26px 0;
   }
 }
 
@@ -83,11 +98,9 @@
   letter-spacing: 0.01em;
 }
 
-/* --- Hover ------------------------------------------------- */
-
+/* underline 完全削除 */
 .main-blog-news__row:hover .main-blog-news__text {
-  text-decoration: underline;
-  text-underline-offset: 0.18em;
+  text-decoration: none;
 }
 
 /* --- Pagination -------------------------------------------- */

@@ -10,19 +10,14 @@
 {
   "sections": {
     "main": {
-      "type": "main-blog",
+      "type": "main-blog-news",
       "settings": {
-        "layout": "collage",
-        "show_image": true,
-        "image_height": "medium",
+        "posts_per_page": 50,
         "show_date": true,
-        "show_author": false,
         "padding_top": 36,
-        "padding_bottom": 36
+        "padding_bottom": 120
       }
     }
   },
-  "order": [
-    "main"
-  ]
+  "order": ["main"]
 }
