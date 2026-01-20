@@ -1,0 +1,122 @@
+/* =========================================================
+   News article page
+   ========================================================= */
+
+.news-article {
+  --lucent-article-body-width: 900px;
+
+  padding: 80px 40px 300px 0;
+  width: 100%;
+}
+
+/* layout */
+.news-article__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 220px) minmax(
+      0,
+      var(--lucent-article-body-width)
+    );
+  column-gap: 160px;
+  align-items: start;
+}
+
+/* left fixed title */
+.news-article__side {
+  position: relative;
+}
+
+.news-article__side-inner {
+  position: fixed;
+  top: calc(var(--header-height, 88px) + 80px);
+  left: 40px;
+  width: 220px;
+}
+
+.news-article__side-title {
+  font-size: 2.4rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+}
+
+/* main */
+.news-article__main {
+  min-width: 0;
+}
+
+/* header */
+.news-article__header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  padding-bottom: 18px;
+  margin-bottom: 40px;
+}
+
+.news-article__title {
+  margin: 0 0 8px;
+  font-size: 1.8rem;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+.news-article__date {
+  font-size: 1.3rem;
+  letter-spacing: 0.02em;
+  opacity: 0.85;
+}
+
+/* content */
+.news-article__content {
+  font-size: 1.4rem;
+  line-height: 1.9;
+  letter-spacing: 0.01em;
+}
+
+.news-article__content p {
+  margin: 0 0 1.6em;
+}
+
+/* images in content */
+.news-article__content img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 3em 0;
+}
+
+.news-article__thumbnail {
+  margin: 3em 0;
+}
+
+.news-article__thumbnail img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* all news link */
+.news-article__all {
+  text-align: center;
+  margin-top: 200px;
+}
+
+.news-article__all-link {
+  font-size: 1.2rem;
+  letter-spacing: 0.12em;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+/* responsive */
+@media screen and (max-width: 749px) {
+  .news-article__grid {
+    grid-template-columns: 1fr;
+    row-gap: 32px;
+  }
+
+  .news-article__side-inner {
+    position: static;
+    width: auto;
+  }
+}

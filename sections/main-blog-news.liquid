@@ -15,11 +15,13 @@
 {%- endstyle -%}
 
 {%- paginate blog.articles by section.settings.posts_per_page -%}
-  <div class="main-blog-news page-width section-{{ section.id }}-padding">
+  <div class="main-blog-news page-width">
     <div class="main-blog-news__grid">
-      <h1 class="main-blog-news__heading">
-        {{ blog.title | escape }}
-      </h1>
+      <div class="main-blog-news__side">
+        <h1 class="main-blog-news__heading">
+          {{ blog.title | escape }}
+        </h1>
+      </div>
 
       <div class="main-blog-news__list" aria-label="{{ blog.title | escape }}">
         {%- for article in blog.articles -%}

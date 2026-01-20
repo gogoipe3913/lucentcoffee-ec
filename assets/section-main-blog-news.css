@@ -1,10 +1,10 @@
 /* =========================================================
    News list page
    Used by: blog.json / main-blog-news.liquid
-   Scoped safely with .main-blog-news
    ========================================================= */
 
 .main-blog-news {
+  padding: 80px 40px 300px 0;
   width: 100%;
 }
 
@@ -13,20 +13,21 @@
 .main-blog-news__grid {
   display: grid;
   grid-template-columns: 220px 1fr;
-  column-gap: 72px;
+  column-gap: 100px;
   align-items: start;
 }
 
-@media screen and (max-width: 749px) {
-  .main-blog-news__grid {
-    grid-template-columns: 1fr;
-    row-gap: 24px;
-  }
+/* left side (fixed title) */
+.main-blog-news__side {
+  position: relative;
 }
 
-/* --- Heading ------------------------------------------------ */
-
 .main-blog-news__heading {
+  position: fixed;
+  top: calc(var(--header-height, 88px) + 80px); /* ← header高さに追従 */
+  left: 40px;
+  width: 220px;
+
   margin: 0;
   font-size: 2.4rem;
   font-weight: 400;
@@ -47,14 +48,12 @@
   grid-template-columns: 120px 1fr;
   column-gap: 28px;
 
-  /* base spacing */
-  padding: 22px 0;
+  padding: 24px 0;
   border-top: 1px solid rgba(0, 0, 0, 0.15);
 
   color: inherit;
   text-decoration: none;
 
-  /* interaction */
   transition:
     padding 0.5s cubic-bezier(0.4, 0, 0.2, 1),
     color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -67,18 +66,6 @@
 .main-blog-news__row:hover {
   padding: 60px 0; /* ← ここが「ニュッと」広がる */
   color: rgba(196, 154, 120, 1);
-}
-
-@media screen and (max-width: 749px) {
-  .main-blog-news__row {
-    grid-template-columns: 96px 1fr;
-    column-gap: 16px;
-    padding: 18px 0;
-  }
-
-  .main-blog-news__row:hover {
-    padding: 26px 0;
-  }
 }
 
 /* --- Date -------------------------------------------------- */
@@ -98,13 +85,33 @@
   letter-spacing: 0.01em;
 }
 
-/* underline 完全削除 */
-.main-blog-news__row:hover .main-blog-news__text {
-  text-decoration: none;
-}
-
 /* --- Pagination -------------------------------------------- */
 
 .main-blog-news__pagination {
   margin-top: 32px;
+}
+
+/* --- Responsive -------------------------------------------- */
+
+@media screen and (max-width: 749px) {
+  .main-blog-news__grid {
+    grid-template-columns: 1fr;
+    row-gap: 24px;
+  }
+
+  /* fixed解除 */
+  .main-blog-news__heading {
+    position: static;
+    width: auto;
+  }
+
+  .main-blog-news__row {
+    grid-template-columns: 96px 1fr;
+    column-gap: 16px;
+    padding: 18px 0;
+  }
+
+  .main-blog-news__row:hover {
+    padding: 26px 0;
+  }
 }

@@ -1,0 +1,115 @@
+{{ 'section-main-article-news.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<section class="news-article page-width">
+  <div class="news-article__grid">
+    <!-- left fixed -->
+    <aside class="news-article__side">
+      <div class="news-article__side-inner">
+        <div class="news-article__side-title">News</div>
+      </div>
+    </aside>
+
+    <!-- main -->
+    <article class="news-article__main">
+      <header class="news-article__header">
+        <h1 class="news-article__title">
+          {{ article.title | escape }}
+        </h1>
+
+        {%- if section.settings.show_date -%}
+          <div class="news-article__date">
+            {{ article.published_at | date: "%m.%d.%y" }}
+          </div>
+        {%- endif -%}
+      </header>
+
+      {%- assign content_norm = article.content -%}
+
+      {%- comment -%}
+        Shopify のエディタでコメントがエスケープされる/段落で包まれることがあるので正規化する
+      {%- endcomment -%}
+      {%- assign content_norm = content_norm
+        | replace: '<p><!--thumbnail--></p>', '<!--thumbnail-->'
+        | replace: '<p>&lt;!--thumbnail--&gt;</p>', '<!--thumbnail-->'
+        | replace: '&lt;!--thumbnail--&gt;', '<!--thumbnail-->'
+      -%}
+
+      {%- assign parts = content_norm | split: '<!--thumbnail-->' -%}
+
+      <div class="news-article__content rte">
+        {{ parts[0] }}
+
+        {%- if parts.size > 1 and article.image != blank -%}
+          <figure class="news-article__thumbnail">
+            {{ article.image | image_url: width: 1600 | image_tag: loading: 'lazy' }}
+          </figure>
+
+          {{ parts[1] }}
+        {%- elsif parts.size > 1 -%}
+          {{ parts[1] }}
+        {%- endif -%}
+      </div>
+
+
+      <div class="news-article__all">
+        <a href="{{ blog.url }}" class="news-article__all-link">
+          ALL NEWS
+        </a>
+      </div>
+    </article>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main article (News)",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "default": true,
+      "label": "Show date"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 220,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 140
+    }
+  ]
+}
+{% endschema %}
