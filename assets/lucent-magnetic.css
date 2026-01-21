@@ -1,44 +1,44 @@
 /* =========================================
-   Lucent Magnetic Hover (Hero Panels)
-   - Compatible with lucent-reveal transform
+   Lucent Magnetic Hover
+   - wrapper moves via lucent-reveal (mx/my)
+   - inner elements parallax a bit
    ========================================= */
 
-/* JSが --mx/--my を更新するので、ここでは transition だけ */
 .lucent-magnetic {
-  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* wrapperの動きは lucent-reveal の transform が担当
+     ここは hover中の追従感だけ調整 */
   will-change: transform;
 }
 
 .lucent-magnetic.is-magnetic-active {
-  transition: transform 70ms linear;
+  /* JSでmx/myが頻繁に変わるので、ホバー中は追従をキビキビ */
+  /* ※ wrapper自体のtransitionは lucent-reveal 側 */
 }
 
-/* 画像は少しだけ追従（奥行き感） */
+/* inner parallax (always on) */
 .lucent-magnetic .lucent-hero__image {
   transform: translate3d(
-      calc(var(--mx, 0px) * 0.35),
-      calc(var(--my, 0px) * 0.35),
+      calc(var(--mx, 0px) * 0.25),
+      calc(var(--my, 0px) * 0.25),
       0
     )
     scale(1.02);
-  transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
   will-change: transform;
 }
 
-/* ラベルは逆方向にちょい */
 .lucent-magnetic .lucent-hero__label {
   transform: translate3d(
-    calc(var(--mx, 0px) * -0.15),
-    calc(var(--my, 0px) * -0.15),
+    calc(var(--mx, 0px) * -0.12),
+    calc(var(--my, 0px) * -0.12),
     0
   );
-  transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
   will-change: transform;
 }
 
-/* モバイル/タッチでは無効 */
+/* Touch / coarse pointer: disable */
 @media (hover: none), (pointer: coarse) {
-  .lucent-magnetic,
   .lucent-magnetic .lucent-hero__image,
   .lucent-magnetic .lucent-hero__label {
     transform: none !important;
@@ -46,9 +46,8 @@
   }
 }
 
-/* Reduce motion でも無効 */
+/* Reduce motion */
 @media (prefers-reduced-motion: reduce) {
-  .lucent-magnetic,
   .lucent-magnetic .lucent-hero__image,
   .lucent-magnetic .lucent-hero__label {
     transform: none !important;

@@ -1,7 +1,8 @@
 /* =========================================
    Lucent Reveal Controller
-   - Ensure first paint happens in "hidden/blur" state
-   - Then start revealing (so blur transition actually runs)
+   - Reveal .lucent-reveal via IntersectionObserver
+   - If hero exists: reveal header AFTER hero reveal completes
+   - After initial reveal completes: clear --lucent-delay (so magnetic reacts instantly)
    ========================================= */
 (function () {
   if (window.__lucentRevealControllerInitialized) return;
@@ -11,66 +12,62 @@
     window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const header = document.querySelector(
-    ".section-header .lucent-header-reveal",
-  );
-  const heroTiles = Array.from(
-    document.querySelectorAll(".lucent-hero .lucent-reveal"),
-  );
+  const header = document.querySelector(".lucent-header-reveal");
 
-  // Reduce motion: reveal everything immediately
+  const allRevealEls = () =>
+    Array.from(document.querySelectorAll(".lucent-reveal"));
+
+  const heroTiles = () =>
+    Array.from(document.querySelectorAll(".lucent-hero .lucent-reveal"));
+
+  const hasHero = () => Boolean(document.querySelector(".lucent-hero"));
+
+  const parseMs = (v) => {
+    if (!v) return 0;
+    const s = String(v).trim();
+    if (!s) return 0;
+    if (s.endsWith("ms")) return Number.parseFloat(s);
+    if (s.endsWith("s")) return Number.parseFloat(s) * 1000;
+    const n = Number(s);
+    return Number.isFinite(n) ? n : 0;
+  };
+
+  const getLucentDelayMs = (el) => {
+    const inline = el.style.getPropertyValue("--lucent-delay");
+    if (inline) return parseMs(inline);
+    const computed = getComputedStyle(el).getPropertyValue("--lucent-delay");
+    return parseMs(computed);
+  };
+
+  // Reduce motion: show everything immediately
   if (reduce) {
-    document.querySelectorAll(".lucent-reveal").forEach((el) => {
-      el.classList.add("is-revealed");
-    });
+    allRevealEls().forEach((el) => el.classList.add("is-revealed"));
     if (header) header.classList.add("is-revealed");
     return;
   }
 
-  // ---- helper: parse "--lucent-delay" from style / computed style
-  const getDelayMs = (el) => {
-    const inline = el.style.getPropertyValue("--lucent-delay");
-    if (inline && inline.trim().endsWith("ms")) return parseFloat(inline);
-    if (inline && inline.trim().endsWith("s")) return parseFloat(inline) * 1000;
-
-    const computed = getComputedStyle(el).getPropertyValue("--lucent-delay");
-    if (computed && computed.trim().endsWith("ms")) return parseFloat(computed);
-    if (computed && computed.trim().endsWith("s"))
-      return parseFloat(computed) * 1000;
-
-    return 0;
-  };
-
-  // ---- core reveal (IO)
-  const startIntersectionReveal = (root) => {
-    const els = Array.from(
-      (root || document).querySelectorAll(".lucent-reveal"),
-    );
-    if (!els.length) return;
-
+  // =========================================================
+  // 1) IntersectionObserver: reveal elements when they enter
+  // =========================================================
+  const startIO = () => {
     const io = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (!entry.isIntersecting) continue;
-
-          // ✅ 次フレームで is-revealed（初期状態の描画を保証）
           requestAnimationFrame(() => {
             entry.target.classList.add("is-revealed");
           });
-
           io.unobserve(entry.target);
         }
       },
       { root: null, rootMargin: "0px 0px -10% 0px", threshold: 0.1 },
     );
 
-    els.forEach((el) => io.observe(el));
+    allRevealEls().forEach((el) => io.observe(el));
 
     document.addEventListener("shopify:section:load", (e) => {
       const container = e && e.target ? e.target : document;
       const newEls = Array.from(container.querySelectorAll(".lucent-reveal"));
-
-      // section loadも「初期状態を描画→次フレームで観測」
       requestAnimationFrame(() => {
         newEls.forEach((el) => {
           if (!el.classList.contains("is-revealed")) io.observe(el);
@@ -79,44 +76,74 @@
     });
   };
 
-  // ---- Header reveal timing
+  // =========================================================
+  // 2) Header reveal AFTER hero reveal completes (if hero exists)
+  // =========================================================
   const scheduleHeaderReveal = () => {
     if (!header) return;
 
-    // index以外（ヒーローが無いページ）は即表示（でも1フレームは待つ）
-    if (!heroTiles.length) {
+    // ✅ heroが無いページは即表示
+    if (!hasHero()) {
       requestAnimationFrame(() => header.classList.add("is-revealed"));
       return;
     }
 
-    const maxDelay = heroTiles.reduce(
-      (m, el) => Math.max(m, getDelayMs(el)),
+    const tiles = heroTiles();
+
+    // ✅ heroはあるのに tiles が取れない場合でも、少し待って出す（同時出し回避）
+    if (!tiles.length) {
+      setTimeout(() => header.classList.add("is-revealed"), 900);
+      return;
+    }
+
+    const maxDelay = tiles.reduce(
+      (m, el) => Math.max(m, getLucentDelayMs(el)),
       0,
     );
 
-    // CSSの .lucent-reveal の transform/filter が 1000ms 想定
-    const HERO_DURATION_MS = 1000;
+    const REVEAL_DURATION_MS = 900;
+    const BUFFER_MS = 80;
 
-    const headerDelay = maxDelay + HERO_DURATION_MS;
+    const headerDelay = maxDelay + REVEAL_DURATION_MS + BUFFER_MS;
 
-    // load 待ちにすると遅いので、DOMContentLoaded後に開始（ただし描画は保証する）
     setTimeout(() => {
       header.classList.add("is-revealed");
     }, headerDelay);
   };
 
   // =========================================================
-  // ✅ 重要：初期状態を「必ず」描画してから始める
-  //
-  // 1) DOMができる
-  // 2) 1フレーム描画（opacity:0 + blur）
-  // 3) 次フレームで IO開始（is-revealed が transition で効く）
+  // 3) Clear --lucent-delay AFTER initial reveal completes
+  // =========================================================
+  const scheduleClearDelays = () => {
+    const els = allRevealEls();
+    if (!els.length) return;
+
+    const maxDelay = els.reduce(
+      (m, el) => Math.max(m, getLucentDelayMs(el)),
+      0,
+    );
+
+    const REVEAL_DURATION_MS = 900;
+    const BUFFER_MS = 60;
+
+    const clearAt = maxDelay + REVEAL_DURATION_MS + BUFFER_MS;
+
+    setTimeout(() => {
+      allRevealEls().forEach((el) => {
+        el.style.setProperty("--lucent-delay", "0ms");
+      });
+    }, clearAt);
+  };
+
+  // =========================================================
+  // Boot: ensure first paint happens before reveal starts
   // =========================================================
   const boot = () => {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        startIntersectionReveal(document);
+        startIO();
         scheduleHeaderReveal();
+        scheduleClearDelays();
       });
     });
   };
