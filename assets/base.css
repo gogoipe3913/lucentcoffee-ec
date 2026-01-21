@@ -4030,3 +4030,30 @@ details-disclosure > details {
 }
 
 /* reveal後は共通（既存の .lucent-reveal.is-revealed が効く） */
+
+/* ===== Lucent Header Reveal ===== */
+.lucent-header-reveal {
+  opacity: 0;
+  transform: translate3d(0, 10px, 0);
+  filter: blur(6px);
+  transition:
+    opacity 600ms ease,
+    transform 800ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    filter 800ms ease;
+}
+
+.lucent-header-reveal.is-revealed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  filter: blur(0);
+}
+
+/* 念のため：reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .lucent-header-reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}
