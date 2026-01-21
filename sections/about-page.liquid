@@ -57,16 +57,16 @@
         <figure class="lc-about-gallery__item">
           {{
             section.settings.image_1
-            | image_url: width: 1400
+            | image_url: width: 2000
             | image_tag:
               loading: 'lazy',
               class: 'lc-about-gallery__img',
-              widths: '600, 900, 1200, 1400'
+              widths: '800, 1200, 1600, 2000'
           }}
         </figure>
       {%- endif -%}
 
-      {%- if section.settings.image_2 != blank -%}
+      {% comment %} {%- if section.settings.image_2 != blank -%}
         <figure class="lc-about-gallery__item lc-about-gallery__item--narrow">
           {{
             section.settings.image_2
@@ -77,7 +77,7 @@
               widths: '600, 900, 1200, 1400'
           }}
         </figure>
-      {%- endif -%}
+      {%- endif -%} {% endcomment %}
     </div>
 
     <div class="lc-about-right-box--history">
@@ -125,13 +125,25 @@
 
         <div class="lc-about-block__body">
           {%- if section.settings.access_text != blank -%}
-            <div class="lc-about-richtext rte">
+            <div class="lc-about-richtext lc-about-richtext--address rte">
               {{ section.settings.access_text }}
             </div>
           {%- endif -%}
           {%- if section.settings.access_sub_text != blank -%}
-            <div class="lc-about-richtext rte">
+            <div class="lc-about-richtext lc-about-richtext--address rte">
               {{ section.settings.access_sub_text }}
+            </div>
+          {%- endif -%}
+          {%- if section.settings.access_map_url != blank -%}
+            <div class="lc-about-map rte">
+              <a href="{{ section.settings.access_map_url }}" target="_blank" rel="noopener noreferrer">
+                Google Maps
+              </a>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.access_near_station_text != blank -%}
+            <div class="lc-about-richtext lc-about-richtext--station rte">
+              {{ section.settings.access_near_station_text }}
             </div>
           {%- endif -%}
         </div>
@@ -250,7 +262,7 @@
       "type": "richtext",
       "id": "access_text",
       "label": "Access text",
-      "default": "<p>〒111-0042 東京都台東区寿１丁目１７−１２ レモンビル 1F</p>"
+      "default": "<p>〒111-0042<br/>東京都台東区寿1丁目17-12 レモンビル 1F</p>"
     },
     {
       "type": "richtext",
@@ -262,6 +274,12 @@
       "type": "url",
       "id": "access_map_url",
       "label": "Access Map url",
+    },
+    {
+      "type": "richtext",
+      "id": "access_near_station_text",
+      "label": "Access near station text",
+      "default": "<p>東京メトロ銀座線 田原町駅 出口から約4分</p><p>都営大江戸線 蔵前駅 A5出口から約5分</p>"
     },
     {
       "type": "image_picker",
