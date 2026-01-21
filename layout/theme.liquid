@@ -310,10 +310,15 @@
       }
     </script>
     {{ 'mouse-stalker.css' | asset_url | stylesheet_tag }}
+
+    {%- comment -%} Smooth scroll (Lenis) {%- endcomment -%}
+    <script src="{{ 'lenis.min.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'lenis-init.js' | asset_url }}" defer="defer"></script>
+
   </head>
 
-  <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
-    <a class="skip-to-content-link button visually-hidden" href="#MainContent">
+  <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %} smooth-scroll-enabled">
+    <a class="skip-to-content-link button visually-hidden" href="#MainContent" data-no-smooth-scroll>
       {{ 'accessibility.skip_to_text' | t }}
     </a>
 

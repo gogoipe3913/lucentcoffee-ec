@@ -3974,3 +3974,59 @@ details-disclosure > details {
 .section-header.shopify-section-header-sticky .header-wrapper {
   background: transparent !important;
 }
+
+/* ===== Lucent Reveal Animation ===== */
+.lucent-reveal {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0) scale(0.985);
+  filter: blur(14px);
+  will-change: opacity, transform, filter;
+  transition:
+    opacity 700ms ease,
+    transform 900ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    filter 900ms ease;
+  transition-delay: var(--lucent-delay, 0ms);
+}
+
+.lucent-reveal.is-revealed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0px);
+}
+
+/* ちょい軽量化（特にスマホ） */
+@media (max-width: 749px) {
+  .lucent-reveal {
+    filter: blur(10px);
+    transform: translate3d(0, 10px, 0) scale(0.992);
+  }
+}
+
+/* OS設定：視差/アニメ減らす */
+@media (prefers-reduced-motion: reduce) {
+  .lucent-reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}
+
+/* ===== Lucent Reveal Direction Variants ===== */
+.lucent-reveal--up {
+  transform: translate3d(0, 14px, 0) scale(0.985);
+}
+
+.lucent-reveal--down {
+  transform: translate3d(0, -14px, 0) scale(0.985);
+}
+
+.lucent-reveal--left {
+  transform: translate3d(14px, 0, 0) scale(0.985);
+}
+
+.lucent-reveal--right {
+  transform: translate3d(-14px, 0, 0) scale(0.985);
+}
+
+/* reveal後は共通（既存の .lucent-reveal.is-revealed が効く） */

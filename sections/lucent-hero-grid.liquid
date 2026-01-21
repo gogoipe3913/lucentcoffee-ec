@@ -2,9 +2,38 @@
 <section class="lucent-hero page-width">
   <div class="lucent-hero__grid">
     {% for block in section.blocks %}
+      {%- liquid
+        assign i = forloop.index0
+
+        comment
+          方向の割り当て（好みで変えてOK）
+          0: left（大）
+          1: up
+          2: right
+          3: down
+          4: up
+        endcomment
+
+        assign dir = 'up'
+        if i == 0
+          assign dir = 'left'
+        elsif i == 1
+          assign dir = 'down'
+        elsif i == 2
+          assign dir = 'up'
+        elsif i == 3
+          assign dir = 'right'
+        elsif i == 4
+          assign dir = 'up'
+        endif
+
+        assign delay_ms = i | times: 300
+      -%}
+
       <a
         href="{{ block.settings.link }}"
-        class="lucent-hero__item lucent-hero__item--{{ block.settings.size }}"
+        class="lucent-hero__item lucent-hero__item--{{ block.settings.size }} lucent-reveal lucent-reveal--{{ dir }}"
+        style="--lucent-delay: {{ delay_ms }}ms;"
         {{ block.shopify_attributes }}
       >
         {% if block.settings.image != blank %}
