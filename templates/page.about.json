@@ -12,9 +12,9 @@
     "main": {
       "type": "about-page",
       "settings": {
-        "max_width": 1040,
-        "padding_top": 56,
-        "padding_bottom": 96,
+        "max_width": 1520,
+        "padding_top": 80,
+        "padding_bottom": 160,
         "hero_title": "人々の暮らしに自然に溶け込み、\n輝き、豊かにすること",
         "hero_sub": "seamlessly integrating into people’s lives,\nshining light, and enriching everyday experience.",
         "hero_image": "shopify://shop_images/20220510-2_1.png",
