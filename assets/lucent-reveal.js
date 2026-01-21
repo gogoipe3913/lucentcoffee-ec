@@ -1,7 +1,7 @@
 /* =========================================
    Lucent Reveal Controller
-   - Hero tiles reveal first
-   - Header reveals after hero completes
+   - Ensure first paint happens in "hidden/blur" state
+   - Then start revealing (so blur transition actually runs)
    ========================================= */
 (function () {
   if (window.__lucentRevealControllerInitialized) return;
@@ -20,7 +20,9 @@
 
   // Reduce motion: reveal everything immediately
   if (reduce) {
-    heroTiles.forEach((el) => el.classList.add("is-revealed"));
+    document.querySelectorAll(".lucent-reveal").forEach((el) => {
+      el.classList.add("is-revealed");
+    });
     if (header) header.classList.add("is-revealed");
     return;
   }
@@ -39,8 +41,8 @@
     return 0;
   };
 
-  // ---- Reveal by IntersectionObserver (for everything else)
-  const revealIO = (root) => {
+  // ---- core reveal (IO)
+  const startIntersectionReveal = (root) => {
     const els = Array.from(
       (root || document).querySelectorAll(".lucent-reveal"),
     );
@@ -50,7 +52,12 @@
       (entries) => {
         for (const entry of entries) {
           if (!entry.isIntersecting) continue;
-          entry.target.classList.add("is-revealed");
+
+          // ✅ 次フレームで is-revealed（初期状態の描画を保証）
+          requestAnimationFrame(() => {
+            entry.target.classList.add("is-revealed");
+          });
+
           io.unobserve(entry.target);
         }
       },
@@ -62,43 +69,61 @@
     document.addEventListener("shopify:section:load", (e) => {
       const container = e && e.target ? e.target : document;
       const newEls = Array.from(container.querySelectorAll(".lucent-reveal"));
-      newEls.forEach((el) => {
-        if (!el.classList.contains("is-revealed")) io.observe(el);
+
+      // section loadも「初期状態を描画→次フレームで観測」
+      requestAnimationFrame(() => {
+        newEls.forEach((el) => {
+          if (!el.classList.contains("is-revealed")) io.observe(el);
+        });
       });
     });
   };
 
-  // start IO
-  revealIO(document);
-
   // ---- Header reveal timing
-  // If no hero tiles (non-index pages), reveal header immediately
-  if (!heroTiles.length) {
-    if (header) header.classList.add("is-revealed");
-    return;
-  }
-
-  // Compute: maxDelay + heroDuration + small buffer
-  const maxDelay = heroTiles.reduce((m, el) => Math.max(m, getDelayMs(el)), 0);
-
-  // NOTE: CSSの .lucent-reveal の transform/filter が 1000ms なのでそれに合わせる
-  const HERO_DURATION_MS = 1000;
-
-  const headerDelay = maxDelay + HERO_DURATION_MS;
-
-  // load を待つと遅く感じやすいので、まず 1フレーム後にタイマーを走らせる
-  const start = () => {
+  const scheduleHeaderReveal = () => {
     if (!header) return;
+
+    // index以外（ヒーローが無いページ）は即表示（でも1フレームは待つ）
+    if (!heroTiles.length) {
+      requestAnimationFrame(() => header.classList.add("is-revealed"));
+      return;
+    }
+
+    const maxDelay = heroTiles.reduce(
+      (m, el) => Math.max(m, getDelayMs(el)),
+      0,
+    );
+
+    // CSSの .lucent-reveal の transform/filter が 1000ms 想定
+    const HERO_DURATION_MS = 1000;
+
+    const headerDelay = maxDelay + HERO_DURATION_MS;
+
+    // load 待ちにすると遅いので、DOMContentLoaded後に開始（ただし描画は保証する）
     setTimeout(() => {
       header.classList.add("is-revealed");
     }, headerDelay);
   };
 
-  if (document.readyState === "complete") {
-    requestAnimationFrame(start);
-  } else {
-    window.addEventListener("load", () => requestAnimationFrame(start), {
-      once: true,
+  // =========================================================
+  // ✅ 重要：初期状態を「必ず」描画してから始める
+  //
+  // 1) DOMができる
+  // 2) 1フレーム描画（opacity:0 + blur）
+  // 3) 次フレームで IO開始（is-revealed が transition で効く）
+  // =========================================================
+  const boot = () => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        startIntersectionReveal(document);
+        scheduleHeaderReveal();
+      });
     });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot, { once: true });
+  } else {
+    boot();
   }
 })();

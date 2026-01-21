@@ -6,24 +6,15 @@
         assign i = forloop.index0
 
         comment
-          ブロック順（index.jsonのblock_order想定）
+          delay（前に作ったやつ）
           0: large
-          1: small (右側2x2の左上に来る)
-          2: small (右側2x2の右上に来る)
-          3: small (右側2x2の左下に来る)
-          4: small (右側2x2の右下に来る)
-
-          目的：
-          - large は最初（delay 0）
-          - small は「左上→右上→右下→左下」の順で遅延
-            => i=1 → 1
-               i=2 → 2
-               i=4 → 3
-               i=3 → 4
+          1: small 左上
+          2: small 右上
+          3: small 右下（i=4）
+          4: small 左下（i=3）
         endcomment
 
         assign delay_order = 0
-
         if block.settings.size == 'large'
           assign delay_order = 0
         else
@@ -39,14 +30,23 @@
             assign delay_order = 1
           endif
         endif
-
         assign delay_ms = delay_order | times: 200
+
+        comment
+          magnetic strength（好みで変えてOK）
+          largeは少し強め、小は控えめ、みたいにもできる
+        endcomment
+        assign magnetic = 16
+        if block.settings.size == 'large'
+          assign magnetic = 18
+        endif
       -%}
 
       <a
         href="{{ block.settings.link }}"
-        class="lucent-hero__item lucent-hero__item--{{ block.settings.size }} lucent-reveal"
+        class="lucent-hero__item lucent-hero__item--{{ block.settings.size }} lucent-reveal lucent-magnetic"
         style="--lucent-delay: {{ delay_ms }}ms;"
+        data-magnetic="{{ magnetic }}"
         {{ block.shopify_attributes }}
       >
         {% if block.settings.image != blank %}
@@ -77,22 +77,9 @@
       "type": "item",
       "name": "Hero item",
       "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Image"
-        },
-        {
-          "type": "text",
-          "id": "label",
-          "label": "Label",
-          "default": "All items"
-        },
-        {
-          "type": "url",
-          "id": "link",
-          "label": "Link"
-        },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "label", "label": "Label", "default": "All items" },
+        { "type": "url", "id": "link", "label": "Link" },
         {
           "type": "select",
           "id": "size",

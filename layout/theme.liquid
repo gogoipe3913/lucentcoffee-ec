@@ -315,6 +315,8 @@
     <script src="{{ 'lenis.min.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'lenis-init.js' | asset_url }}" defer="defer"></script>
 
+    {{ 'lucent-magnetic.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'lucent-magnetic.js' | asset_url }}" defer></script>
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %} smooth-scroll-enabled">

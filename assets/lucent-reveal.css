@@ -1,11 +1,26 @@
 /* =========================================
    Lucent Reveal (Hero first, Header later)
+   + Magnetic offset compatible
    ========================================= */
 
 /* ===== Hero / Section reveal ===== */
 .lucent-reveal {
+  /* reveal用の初期値（ここを状態で切り替える） */
+  --reveal-x: 0px;
+  --reveal-y: 14px;
+  --reveal-scale: 0.985;
+
+  /* magnetic用の初期値（JSが上書きする） */
+  --mx: 0px;
+  --my: 0px;
+
   opacity: 0;
-  transform: translate3d(0, 14px, 0) scale(0.985);
+  transform: translate3d(
+      calc(var(--reveal-x) + var(--mx)),
+      calc(var(--reveal-y) + var(--my)),
+      0
+    )
+    scale(var(--reveal-scale));
   filter: blur(14px);
   will-change: opacity, transform, filter;
   transition:
@@ -17,15 +32,18 @@
 
 .lucent-reveal.is-revealed {
   opacity: 1;
-  transform: translate3d(0, 0, 0) scale(1);
+  --reveal-x: 0px;
+  --reveal-y: 0px;
+  --reveal-scale: 1;
   filter: blur(0px);
 }
 
-/* モバイル軽量 */
+/* ===== モバイル軽量 ===== */
 @media (max-width: 749px) {
   .lucent-reveal {
     filter: blur(10px);
-    transform: translate3d(0, 10px, 0) scale(0.992);
+    --reveal-y: 10px;
+    --reveal-scale: 0.992;
   }
 }
 
@@ -34,7 +52,7 @@
   opacity: 0;
   transform: translate3d(0, 10px, 0);
   filter: blur(6px);
-  pointer-events: none; /* 表示前にクリックできないように */
+  pointer-events: none;
   transition:
     opacity 600ms ease,
     transform 800ms cubic-bezier(0.2, 0.8, 0.2, 1),

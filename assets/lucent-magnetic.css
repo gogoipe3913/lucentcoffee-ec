@@ -1,0 +1,57 @@
+/* =========================================
+   Lucent Magnetic Hover (Hero Panels)
+   - Compatible with lucent-reveal transform
+   ========================================= */
+
+/* JSが --mx/--my を更新するので、ここでは transition だけ */
+.lucent-magnetic {
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+
+.lucent-magnetic.is-magnetic-active {
+  transition: transform 70ms linear;
+}
+
+/* 画像は少しだけ追従（奥行き感） */
+.lucent-magnetic .lucent-hero__image {
+  transform: translate3d(
+      calc(var(--mx, 0px) * 0.35),
+      calc(var(--my, 0px) * 0.35),
+      0
+    )
+    scale(1.02);
+  transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+
+/* ラベルは逆方向にちょい */
+.lucent-magnetic .lucent-hero__label {
+  transform: translate3d(
+    calc(var(--mx, 0px) * -0.15),
+    calc(var(--my, 0px) * -0.15),
+    0
+  );
+  transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+
+/* モバイル/タッチでは無効 */
+@media (hover: none), (pointer: coarse) {
+  .lucent-magnetic,
+  .lucent-magnetic .lucent-hero__image,
+  .lucent-magnetic .lucent-hero__label {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* Reduce motion でも無効 */
+@media (prefers-reduced-motion: reduce) {
+  .lucent-magnetic,
+  .lucent-magnetic .lucent-hero__image,
+  .lucent-magnetic .lucent-hero__label {
+    transform: none !important;
+    transition: none !important;
+  }
+}
