@@ -1,16 +1,17 @@
 .lc-about {
+  --block-margin: 240px;
   padding-top: var(--lc-pt);
   padding-bottom: var(--lc-pb);
 }
 
 .lc-about__inner {
-  width: min(var(--lc-about-max), calc(100% - 48px));
+  width: min(var(--lc-about-max), calc(100% - 80px));
   margin: 0 auto;
 }
 
 @media (max-width: 749px) {
   .lc-about__inner {
-    width: calc(100% - 32px);
+    width: calc(100% - 40px);
   }
 }
 
@@ -20,11 +21,12 @@
   grid-template-columns: 1fr;
   row-gap: 10px;
   margin-top: 8px;
+  margin-left: 80px;
   margin-bottom: 44px;
 }
 
 .lc-about-hero__copy {
-  max-width: 460px;
+  width: fit-content;
 }
 
 .lc-about-hero__title {
@@ -43,8 +45,14 @@
 }
 
 /* HERO IMAGE */
+.lc-about-right-box {
+  margin-top: 500px;
+  margin-left: auto;
+  width: calc(100% - 260px);
+}
+
 .lc-about-hero-media {
-  margin: 0 auto 64px;
+  margin: 0 auto var(--block-margin);
 }
 
 .lc-about-hero-media__img {
@@ -58,7 +66,7 @@
 .lc-about-block {
   display: grid;
   grid-template-columns: 180px 1fr;
-  column-gap: 64px;
+  column-gap: 160px;
   align-items: start;
   margin: 0;
 }
@@ -69,15 +77,14 @@
 
 .lc-about-block__kicker {
   margin: 0;
-  font-size: 12px;
-  letter-spacing: 0.08em;
+  font-size: 24px;
 }
 
 .lc-about-richtext {
-  font-size: 12px;
+  max-width: 560px;
+  font-size: 14px;
   line-height: 2.1;
-  letter-spacing: 0.02em;
-  opacity: 0.95;
+  letter-spacing: 0.04em;
 }
 
 .lc-about-richtext p {
@@ -90,11 +97,11 @@
 
 /* 2 images row */
 .lc-about-gallery {
-  margin-top: 72px;
+  margin-top: var(--block-margin);
   margin-bottom: 72px;
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 28px;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
   align-items: start;
 }
 
@@ -106,11 +113,21 @@
   width: 100%;
   height: auto;
   display: block;
+  object-fit: contain;
+}
+
+.lc-about-right-box--history {
+  margin-top: var(--block-margin);
+  margin-left: auto;
+  width: calc(100% - 260px);
+}
+
+.lc-about-block--history {
 }
 
 /* Wide image */
 .lc-about-wide {
-  margin-top: 92px;
+  margin-top: var(--block-margin);
 }
 
 .lc-about-wide__img {

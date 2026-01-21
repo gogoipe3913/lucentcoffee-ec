@@ -17,33 +17,35 @@
       </div>
     </header>
 
-    {%- if section.settings.hero_image != blank -%}
-      <div class="lc-about-hero-media">
-        {{
-          section.settings.hero_image
-          | image_url: width: 2000
-          | image_tag:
-            loading: 'lazy',
-            class: 'lc-about-hero-media__img',
-            widths: '800, 1200, 1600, 2000'
-        }}
-      </div>
-    {%- endif -%}
+    <div class="lc-about-right-box">
+      {%- if section.settings.hero_image != blank -%}
+        <div class="lc-about-hero-media">
+          {{
+            section.settings.hero_image
+            | image_url: width: 2000
+            | image_tag:
+              loading: 'lazy',
+              class: 'lc-about-hero-media__img',
+              widths: '800, 1200, 1600, 2000'
+          }}
+        </div>
+      {%- endif -%}
 
-    {%- comment -%}
-      STORY
-    {%- endcomment -%}
-    <div class="lc-about-block lc-about-block--story">
-      <div class="lc-about-block__head">
-        <p class="lc-about-block__kicker">{{ section.settings.story_label | escape }}</p>
-      </div>
+      {%- comment -%}
+        STORY
+      {%- endcomment -%}
+      <div class="lc-about-block lc-about-block--story">
+        <div class="lc-about-block__head">
+          <p class="lc-about-block__kicker">{{ section.settings.story_label | escape }}</p>
+        </div>
 
-      <div class="lc-about-block__body">
-        {%- if section.settings.story_text != blank -%}
-          <div class="lc-about-richtext rte">
-            {{ section.settings.story_text }}
-          </div>
-        {%- endif -%}
+        <div class="lc-about-block__body">
+          {%- if section.settings.story_text != blank -%}
+            <div class="lc-about-richtext rte">
+              {{ section.settings.story_text }}
+            </div>
+          {%- endif -%}
+        </div>
       </div>
     </div>
 
@@ -78,38 +80,63 @@
       {%- endif -%}
     </div>
 
-    {%- comment -%}
-      HISTORY
-    {%- endcomment -%}
-    <div class="lc-about-block lc-about-block--history">
-      <div class="lc-about-block__head">
-        <p class="lc-about-block__kicker">{{ section.settings.history_label | escape }}</p>
-      </div>
+    <div class="lc-about-right-box--history">
+      {%- comment -%}
+        HISTORY
+      {%- endcomment -%}
+      <div class="lc-about-block lc-about-block--history">
+        <div class="lc-about-block__head">
+          <p class="lc-about-block__kicker">{{ section.settings.history_label | escape }}</p>
+        </div>
 
-      <div class="lc-about-block__body">
-        {%- if section.settings.history_text != blank -%}
-          <div class="lc-about-richtext rte">
-            {{ section.settings.history_text }}
-          </div>
-        {%- endif -%}
+        <div class="lc-about-block__body">
+          {%- if section.settings.history_text != blank -%}
+            <div class="lc-about-richtext rte">
+              {{ section.settings.history_text }}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+      
+
+      {%- comment -%}
+        WIDE IMAGE
+      {%- endcomment -%}
+      {%- if section.settings.wide_image != blank -%}
+        <div class="lc-about-wide">
+          {{
+            section.settings.wide_image
+            | image_url: width: 2400
+            | image_tag:
+              loading: 'lazy',
+              class: 'lc-about-wide__img',
+              widths: '900, 1400, 1800, 2400'
+          }}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%}
+        ACCESS
+      {%- endcomment -%}
+      <div class="lc-about-block lc-about-block--access">
+        <div class="lc-about-block__head">
+          <p class="lc-about-block__kicker">{{ section.settings.access_label | escape }}</p>
+        </div>
+
+        <div class="lc-about-block__body">
+          {%- if section.settings.access_text != blank -%}
+            <div class="lc-about-richtext rte">
+              {{ section.settings.access_text }}
+            </div>
+          {%- endif -%}
+          {%- if section.settings.access_sub_text != blank -%}
+            <div class="lc-about-richtext rte">
+              {{ section.settings.access_sub_text }}
+            </div>
+          {%- endif -%}
+        </div>
       </div>
     </div>
-
-    {%- comment -%}
-      WIDE IMAGE
-    {%- endcomment -%}
-    {%- if section.settings.wide_image != blank -%}
-      <div class="lc-about-wide">
-        {{
-          section.settings.wide_image
-          | image_url: width: 2400
-          | image_tag:
-            loading: 'lazy',
-            class: 'lc-about-wide__img',
-            widths: '900, 1400, 1800, 2400'
-        }}
-      </div>
-    {%- endif -%}
 
     {%- comment -%}
       CTA
@@ -146,17 +173,17 @@
       "step": 4,
       "unit": "px",
       "label": "Padding top",
-      "default": 56
+      "default": 100
     },
     {
       "type": "range",
       "id": "padding_bottom",
       "min": 0,
-      "max": 160,
+      "max": 360,
       "step": 4,
       "unit": "px",
       "label": "Padding bottom",
-      "default": 96
+      "default": 360
     },
 
     {
@@ -213,7 +240,29 @@
       "label": "History text",
       "default": "<p>カウンター越しに交わされる会話や、季節の光が差し込む空気感など、街に根差した時間を大切にしています。</p><p>豆の選定から抽出、提供に至るまで、味わいの輪郭と温度、香りの立ち上がりを丁寧に整えながら、今日の一杯をつくっています。</p>"
     },
-
+    {
+      "type": "text",
+      "id": "access_label",
+      "label": "Access label",
+      "default": "Access"
+    },
+    {
+      "type": "richtext",
+      "id": "access_text",
+      "label": "Access text",
+      "default": "<p>〒111-0042 東京都台東区寿１丁目１７−１２ レモンビル 1F</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "access_sub_text",
+      "label": "Access sub text",
+      "default": "<p>Lemon building 1F, 1-17-12, Kotobuki, Taito-ku, 111-0042, Tokyo</p>"
+    },
+    {
+      "type": "url",
+      "id": "access_map_url",
+      "label": "Access Map url",
+    },
     {
       "type": "image_picker",
       "id": "wide_image",
