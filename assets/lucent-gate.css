@@ -1,0 +1,171 @@
+/* =========================================
+   Lucent Scroll Gate (Frosted + Parallax Content)
+   Base color: #c49a78
+   ========================================= */
+
+.lucent-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  will-change: transform, opacity;
+  opacity: 1;
+
+  --lucent-gate-base: #f6eee7;
+
+  /* frosted glass */
+  /* background: rgba(196, 154, 120, 0.62); */
+  background: var(--lucent-gate-base);
+  /* -webkit-backdrop-filter: blur(18px) saturate(135%);
+  backdrop-filter: blur(18px) saturate(135%); */
+
+  /* box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.18); */
+
+  /* flicker対策（以前の話のやつ） */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  contain: paint;
+
+  /* JSが入れる（デフォ） */
+  --lucent-gate-t: 110%;
+
+  /* Gateシート基準（PC） */
+  --gate-pad-x: 40px;
+  --gate-pad-y: 32px;
+
+  --head-left: 40px;
+  --head-bottom: 360px;
+
+  --box-width: 220px;
+  --box-left: 40px;
+  --box-bottom: 300px;
+
+  --arrow-top: -560px;
+  --arrow-right: 40px;
+
+  /* JSが入れる「動き」 */
+  --gate-head-y: 0px;
+  --gate-box-y: 0px;
+  --gate-arrow-y: 0px;
+}
+
+/* gate slide */
+.lucent-gate[data-dir="bottom"] {
+  transform: translate3d(0, calc(var(--lucent-gate-t, 110%) + 1px), 0);
+}
+
+.lucent-gate[data-dir="right"] {
+  transform: translate3d(var(--lucent-gate-t, 110%), 0, 0);
+}
+
+/* noise */
+.lucent-gate::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  opacity: 0.16;
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.22) 1px, transparent 1px),
+    radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  background-size:
+    12px 12px,
+    16px 16px;
+  background-position:
+    0 0,
+    6px 10px;
+  mix-blend-mode: overlay;
+}
+
+/* content layout */
+.lucent-gate__content {
+  position: absolute;
+  inset: 0;
+  padding: var(--gate-pad-y) var(--gate-pad-x);
+}
+
+/* 左下見出し */
+.lucent-gate__headline {
+  position: absolute;
+  left: var(--head-left);
+  bottom: var(--head-bottom);
+  font-size: 24px;
+  line-height: 1;
+  transform: translate3d(0, var(--gate-head-y), 0);
+  will-change: transform;
+
+  p {
+    height: fit-content;
+  }
+
+  p + p {
+    margin: 0;
+  }
+}
+
+/* 下のテキストボックス（中央寄せ） */
+.lucent-gate__box {
+  position: absolute;
+  left: var(--head-left);
+  bottom: var(--box-bottom);
+  width: min(var(--box-width), 78vw);
+  font-size: 10px;
+  line-height: 1.2;
+  transform: translate3d(0, var(--gate-box-y), 0);
+  will-change: transform;
+}
+
+/* 右下矢印 */
+.lucent-gate__arrow {
+  position: absolute;
+  top: var(--arrow-top);
+  right: var(--arrow-right);
+  transform: translate3d(0, var(--gate-arrow-y), 0);
+  will-change: transform;
+}
+
+.lucent-gate__arrow-icon {
+  display: inline-block;
+  width: 1px;
+  height: 80px;
+  background-color: #121212;
+  transform: translate3d(0, 0, 0);
+}
+
+.lucent-gate__arrow-icon::after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 18px;
+  height: 1px;
+  transform: rotate(-59deg);
+  background-color: #121212;
+  bottom: 6px;
+  left: -4px;
+}
+
+/* responsive */
+@media (max-width: 749px) {
+  .lucent-gate__content {
+    padding: 20px;
+  }
+
+  .lucent-gate__headline-line {
+    font-size: 30px;
+  }
+
+  .lucent-gate__box {
+    min-width: min(420px, 86vw);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lucent-gate {
+    display: none !important;
+  }
+}

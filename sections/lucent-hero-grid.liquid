@@ -5,15 +5,6 @@
       {%- liquid
         assign i = forloop.index0
 
-        comment
-          delay（前に作ったやつ）
-          0: large
-          1: small 左上
-          2: small 右上
-          3: small 右下（i=4）
-          4: small 左下（i=3）
-        endcomment
-
         assign delay_order = 0
         if block.settings.size == 'large'
           assign delay_order = 0
@@ -30,12 +21,9 @@
             assign delay_order = 1
           endif
         endif
+
         assign delay_ms = delay_order | times: 200
 
-        comment
-          magnetic strength（好みで変えてOK）
-          largeは少し強め、小は控えめ、みたいにもできる
-        endcomment
         assign magnetic = 16
         if block.settings.size == 'large'
           assign magnetic = 18
@@ -66,6 +54,38 @@
   {% comment %} トップページ固有のフッター {% endcomment %}
   <div class="lucent-hero__footer">
     © 2026 lucentcoffee. All rights reserved.
+  </div>
+
+  {% comment %}
+    Scroll Gate Overlay (Gold)
+    - data-dir: "bottom" or "right"
+    - data-dest: destination url
+    - data-threshold: how much scroll to complete (bigger = harder)
+  {% endcomment %}
+  <div
+    class="lucent-gate"
+    data-lucent-gate
+    data-dir="bottom"
+    data-dest="/collections/all"
+    data-threshold="1800"
+    aria-hidden="true"
+  >
+    <div class="lucent-gate__content">
+      <div class="lucent-gate__headline">
+        <div class="lucent-gate__headline-line">Scroll down</div>
+        <div class="lucent-gate__headline-line">to our products.</div>
+      </div>
+
+      <div class="lucent-gate__box">
+        <div class="lucent-gate__box-text">
+          LUCENT was founded in Tokyo in 2019 with the concept of naturally blending into people’s everyday lives, bringing subtle brilliance and richness.
+        </div>
+      </div>
+
+      <div class="lucent-gate__arrow" aria-hidden="true">
+        <span class="lucent-gate__arrow-icon"></span>
+      </div>
+    </div>
   </div>
 </section>
 
