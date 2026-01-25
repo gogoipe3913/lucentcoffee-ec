@@ -2,16 +2,12 @@
 {{ 'section-footer.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
-  /* =========================================================
-     Lucent Custom Footer
-     - Layout matches attached design
-     - 4 columns: Logo / Contact / Menu A / Menu B
-  ========================================================= */
-
+  /* Keep only dynamic spacing values in Liquid */
   .footer.lucent-footer {
     margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
   }
-  .lucent-footer__inner {
+
+  .footer.lucent-footer .lucent-footer__inner {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
@@ -20,91 +16,16 @@
     .footer.lucent-footer {
       margin-top: {{ section.settings.margin_top }}px;
     }
-    .lucent-footer__inner {
+
+    .footer.lucent-footer .lucent-footer__inner {
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
-
-  .lucent-footer__grid {
-    display: grid;
-    grid-template-columns: 1.2fr 1.8fr 1fr 1.2fr;
-    column-gap: 6rem;
-    row-gap: 3rem;
-    align-items: start;
-  }
-
-  @media screen and (max-width: 989px) {
-    .lucent-footer__grid {
-      grid-template-columns: 1fr 1fr;
-      column-gap: 3rem;
-    }
-  }
-
-  @media screen and (max-width: 749px) {
-    .lucent-footer__grid {
-      grid-template-columns: 1fr;
-      row-gap: 2.2rem;
-    }
-  }
-
-  .lucent-footer__logo {
-    display: block;
-    width: 100%;
-    max-width: 220px;
-  }
-
-  .lucent-footer__logo img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
-  .lucent-footer__group-title {
-    margin: 0 0 0.6rem;
-    font-size: 1.2rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-
-  .lucent-footer__text {
-    margin: 0 0 1.8rem;
-    font-size: 1.4rem;
-    line-height: 1.7;
-    letter-spacing: 0.02em;
-  }
-
-  .lucent-footer__list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .lucent-footer__list li + li {
-    margin-top: 1.2rem;
-  }
-
-  .lucent-footer__link {
-    font-size: 1.6rem;
-    line-height: 1.6;
-    letter-spacing: 0.02em;
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .lucent-footer__link:hover {
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
-  }
-
-  .lucent-footer__muted {
-    opacity: 0.9;
-  }
 {%- endstyle -%}
 
 <footer class="footer lucent-footer color-{{ section.settings.color_scheme }} gradient">
-  <div class="page-width lucent-footer__inner">
+  <div class="lucent-footer__inner">
     <div class="lucent-footer__grid">
 
       {%- comment -%} LOGO {%- endcomment -%}
@@ -129,9 +50,7 @@
                 alt: settings.brand_image.alt | default: shop.name
             }}
           {%- else -%}
-            <span class="lucent-footer__link" style="font-size: 2rem; letter-spacing: .18em;">
-              {{ shop.name | escape }}
-            </span>
+            <span class="lucent-footer__logo-text">{{ shop.name | escape }}</span>
           {%- endif -%}
         </a>
       </div>
@@ -225,6 +144,10 @@
       </div>
 
     </div>
+  </div>
+  
+  <div class="lucent-footer__copyright">
+    © {{ 'now' | date: '%Y' }} lucentcoffee. All rights reserved.
   </div>
 </footer>
 

@@ -196,7 +196,8 @@
     margin: 0;
   }
 
-  .footer-block__newsletter:not(:only-child) .newsletter-form__message--success {
+  .footer-block__newsletter:not(:only-child)
+    .newsletter-form__message--success {
     left: auto;
   }
 
@@ -296,7 +297,8 @@
 }
 
 @media screen and (min-width: 750px) {
-  .footer__content-bottom-wrapper:not(.footer__content-bottom-wrapper--center) .footer__copyright {
+  .footer__content-bottom-wrapper:not(.footer__content-bottom-wrapper--center)
+    .footer__copyright {
     text-align: right;
   }
 }
@@ -420,7 +422,9 @@
   text-align: center;
 }
 
-.footer-block:only-child > .footer-block__brand-info > .footer-block__image-wrapper {
+.footer-block:only-child
+  > .footer-block__brand-info
+  > .footer-block__image-wrapper {
   margin-left: auto;
   margin-right: auto;
 }
@@ -430,7 +434,9 @@
   height: auto;
 }
 
-.footer-block:only-child .footer-block__brand-info .footer__list-social.list-social {
+.footer-block:only-child
+  .footer-block__brand-info
+  .footer__list-social.list-social {
   justify-content: center;
 }
 
@@ -462,7 +468,7 @@
 }
 
 .policies li::before {
-  content: '\00B7';
+  content: "\00B7";
   padding: 0 0.8rem;
 }
 
@@ -505,4 +511,110 @@
       padding-left: 3rem;
     }
   }
+}
+
+/* =========================================================
+   Lucent Custom Footer (moved from footer.liquid)
+   - Scoped to avoid collision with Dawn footer styles
+========================================================= */
+
+.footer.lucent-footer {
+  margin: 0 40px;
+  border-top: 1px solid rgba(var(--color-foreground), 0.08);
+}
+
+.footer.lucent-footer .lucent-footer__grid {
+  display: grid;
+  grid-template-columns: 2.2fr 2.2fr 0.2fr 1.2fr;
+  column-gap: 6rem;
+  row-gap: 3rem;
+  align-items: start;
+}
+
+@media screen and (max-width: 989px) {
+  .footer.lucent-footer .lucent-footer__grid {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 3rem;
+  }
+
+  .footer.lucent-footer {
+    margin: 0 20px;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .footer.lucent-footer .lucent-footer__grid {
+    grid-template-columns: 1fr;
+    row-gap: 2.2rem;
+  }
+}
+
+.footer.lucent-footer .lucent-footer__logo {
+  display: block;
+  width: 100%;
+  max-width: 100px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.footer.lucent-footer .lucent-footer__logo img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.footer.lucent-footer .lucent-footer__logo-text {
+  font-size: 2rem;
+}
+
+.footer.lucent-footer .lucent-footer__group-title {
+  margin: 0 0 0.2rem;
+  font-size: 1.4rem;
+  line-height: 1;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.footer.lucent-footer .lucent-footer__text {
+  margin: 0 0 1.8rem;
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.footer.lucent-footer .lucent-footer__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer.lucent-footer .lucent-footer__list li + li {
+  margin-top: 0.2rem;
+}
+
+.footer.lucent-footer
+  .lucent-footer__col--menu-a
+  .lucent-footer__list
+  li:has(> a[href*="/contact"])
+  + li {
+  margin-top: 1.4rem;
+}
+
+.footer.lucent-footer .lucent-footer__link {
+  font-size: 1.3rem;
+  line-height: 1;
+  text-decoration: none;
+  color: inherit;
+}
+
+.footer.lucent-footer .lucent-footer__link:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/* Lucent Footer Copyright */
+.footer.lucent-footer .lucent-footer__copyright {
+  padding-bottom: 1.4rem;
+  text-align: center;
+  font-size: 10px;
+  line-height: 1;
 }
