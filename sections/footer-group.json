@@ -15,17 +15,21 @@
       "type": "footer",
       "settings": {
         "color_scheme": "scheme-1",
-        "newsletter_enable": false,
-        "newsletter_heading": "Subscribe to our emails",
-        "enable_follow_on_shop": true,
-        "show_social": true,
-        "enable_country_selector": true,
-        "enable_language_selector": true,
-        "payment_enable": true,
-        "show_policy": true,
+        "logo_image": "shopify://shop_images/logo.svg",
+        "address_label": "ADDRESS",
+        "address_text": "Lemon building 1F, 1-17-12, Kotobuki, Taito-ku, 111-0042, Tokyo",
+        "email_label": "EMAIL",
+        "email_text": "lucentcoffee@gmail.com",
+        "instagram_label": "INSTAGRAM",
+        "instagram_text": "@lucentcoffee",
+        "instagram_url": "",
+        "menu_a": "main-menu",
+        "menu_b": "",
+        "show_cart_link": true,
+        "show_account_link": true,
         "margin_top": 0,
-        "padding_top": 0,
-        "padding_bottom": 0
+        "padding_top": 116,
+        "padding_bottom": 80
       }
     }
   },
