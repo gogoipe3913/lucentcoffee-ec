@@ -28,8 +28,8 @@
         "show_cart_link": true,
         "show_account_link": true,
         "margin_top": 0,
-        "padding_top": 116,
-        "padding_bottom": 80
+        "padding_top": 80,
+        "padding_bottom": 40
       }
     }
   },
