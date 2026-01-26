@@ -48,6 +48,32 @@
     </a>
 
     <div class="lucent-card__meta">
+      {%- liquid
+        assign category_label = ''
+
+        if card_product.tags contains 'special'
+          assign category_label = 'Special Line'
+        elsif card_product.tags contains 'daily'
+          assign category_label = 'Daily Line'
+        elsif card_product.tags contains 'milk'
+          assign category_label = 'For Milk'
+        elsif card_product.tags contains 'decaf'
+          assign category_label = 'Caffeine Less'
+        elsif card_product.tags contains 'subscription'
+          assign category_label = 'Subscription'
+        elsif card_product.tags contains 'goods'
+          assign category_label = 'Goods'
+        elsif card_product.tags contains 'new'
+          assign category_label = 'New Arrivals'
+        endif
+      -%}
+
+      {% if category_label != '' %}
+        <p class="lucent-card__category">
+          {{ category_label }}
+        </p>
+      {% endif %}
+
       <p class="lucent-card__title">
         <a href="{{ card_product.url }}" class="full-unstyled-link">
           {{ card_product.title | escape }}
@@ -75,18 +101,23 @@
       inset: 0;
     }
     .lucent-card__meta {
-      margin-top: 1.0rem;
+      margin-top: 2rem;
       font-size: 1.2rem;
-      line-height: 1.6;
+      line-height: 1;
+    }
+    .lucent-card__category {
+      margin-bottom: 0;
+      font-size: 1.2rem;
+      color: #a8a8a8;
     }
     .lucent-card__title {
-      margin: 0;
+      margin-top: 2rem;
+      margin-bottom: 0;
       font-weight: 400;
-      opacity: 0.95;
+      font-size: 1.8rem;
     }
     .lucent-card__price {
       margin-top: 0.1rem;
-      opacity: 0.85;
     }
     .lucent-card__price .price {
       font-size: 1.2rem;
