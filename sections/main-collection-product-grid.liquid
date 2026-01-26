@@ -99,16 +99,36 @@
     list-style: none;
   }
 
-  .lucent-collection__sidebar-nav a {
+    .lucent-collection__sidebar-nav a {
     display: inline-block;
     padding: 0.35rem 0;
     text-decoration: none;
     color: inherit;
     opacity: 0.75;
+
+    /* ✅ hover animation */
+    letter-spacing: 0.01em;
+    transition:
+      color 0.3s ease,
+      letter-spacing 0.3s ease,
+      opacity 0.3s ease,
+      transform 0.3s ease;
+    will-change: letter-spacing, transform;
   }
 
   .lucent-collection__sidebar-nav a:hover {
     opacity: 1;
+    color: #c49a78;
+    letter-spacing: 0.08em;
+    transform: translateZ(0);
+  }
+
+  /* キーボード操作でも同じ体験に */
+  .lucent-collection__sidebar-nav a:focus-visible {
+    opacity: 1;
+    color: #c49a78;
+    letter-spacing: 0.08em;
+    outline: none;
   }
 
   .lucent-collection__sidebar-nav a[aria-current="page"] {
@@ -116,6 +136,21 @@
     text-decoration: underline;
     text-underline-offset: 3px;
   }
+
+  /* 現在地の項目も hover で同じ色・字間に */
+  .lucent-collection__sidebar-nav a[aria-current="page"]:hover,
+  .lucent-collection__sidebar-nav a[aria-current="page"]:focus-visible {
+    color: #c49a78;
+    letter-spacing: 0.08em;
+  }
+
+  /* モーション苦手な人向け */
+  @media (prefers-reduced-motion: reduce) {
+    .lucent-collection__sidebar-nav a {
+      transition: none;
+    }
+  }
+
 
   .lucent-collection__header {
     margin: 0 0 4.8rem;
